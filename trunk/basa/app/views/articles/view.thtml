@@ -1,0 +1,114 @@
+<!--
+Basa-Asa: A web-based collaborative translation platform
+
+Copyright (c) 2006,	Vee Satayamas
+
+Permission is hereby granted, free of charge, to any person obtaining a
+copy of this software and associated documentation files (the "Software"),
+to deal in the Software without restriction, including without limitation
+the rights to use, copy, modify, merge, publish, distribute, sublicense,
+and/or sell copies of the Software, and to permit persons to whom the
+Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+DEALINGS IN THE SOFTWARE.
+-->
+
+<h2>View Articles</h2>
+
+<?
+$tr_count = count($article['Translation']);
+?>
+
+<p>
+<table cellpadding="0" cellspacing="0">
+<tr>
+<th>&nbsp;</th><th>Source</th><th>Translation</th>
+</tr>
+<tr>
+<th>Title</th>
+<td class="title">
+<div align="left"><?php echo $article['Article']['title']?></div>
+</td>
+
+<td class="title">
+<div align="left">
+  <?
+  if($tr_count == 0) {
+      echo "-";
+  } else {
+      echo htmlspecialchars($article['Translation']['0']['title']);
+  }
+  ?>
+</div>
+</td>
+
+</tr>
+
+<tr>
+<th>Body</th>
+
+<td class="body">
+	<div align="left">
+     <?php echo $text->flay($article['Article']['body'], true) ?>
+	</div>
+</td>
+
+
+<td class="body">
+<div align="left">
+<?
+  if($tr_count == 0) {
+      echo "-";
+  } else {
+      echo $text->flay($article['Translation']['0']['body'], true);
+  }
+?>
+</div>
+</td>
+</tr>
+</table>
+</p>
+
+
+<div class="optional">
+<form action="<? echo $html->url('/articles/status_update/'. $article['Article']['id']); ?>" method="post" name="need"> 
+	<?php echo $html->checkbox('Article/need_checking', 
+                              null, 
+                              array('onclick' => "document.need.submit()") );?>
+ 	<?php echo $form->labelTag('Article/need_checking', 'Need Checking');?>
+
+	<?php echo $html->checkbox('Article/reserved', 
+                              null, 
+                              array('onclick' => "document.need.submit()") );?>
+ 	<?php echo $form->labelTag('Article/reserved', 'จองแปล');?>
+</form>
+</div>
+
+
+
+<ul class="actions">
+	<li><?php echo $html->link('Edit source',   '/articles/edit/' . $article['Article']['id']) ?> </li>
+
+	<li><?php echo $html->link('Home',   '/articles/index') ?> </li>
+</ul>
+
+
+
+
+
+<ul class="actions">
+<li><?php echo $html->link('Edit translation', '/translations/edit/' . $article['Article']['id'])?></li>
+<li><?php echo $html->link('Translation history', '/translations/history/' . $article['Article']['id'])?></li>
+<li><?php echo $html->link('Comment', '/comments/index/' . $article['Article']['id'])?></li>
+</ul>
+</div>
+

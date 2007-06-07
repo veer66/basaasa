@@ -1,0 +1,76 @@
+<!--
+Basa-Asa: A web-based collaborative translation platform
+
+Copyright (c) 2006,	Vee Satayamas
+
+Permission is hereby granted, free of charge, to any person obtaining a
+copy of this software and associated documentation files (the "Software"),
+to deal in the Software without restriction, including without limitation
+the rights to use, copy, modify, merge, publish, distribute, sublicense,
+and/or sell copies of the Software, and to permit persons to whom the
+Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+DEALINGS IN THE SOFTWARE.
+-->
+
+<h2>Preference</h2>
+<form action="<?php echo $html->url('/users/preference/'.$html->tagValue('User/id')); ?>" method="post">
+<div class="optional"> 
+	<?php echo $form->labelTag('User/username', 'Username');?>
+ 	<?php echo $html->tagValue('User/username', array('size' => '60'));?>
+
+</div>
+
+<div class="optional"> 
+	<?php echo $form->labelTag('User/old_password', 'Current password');?>
+ 	<?php echo $html->password('User/old_password', array('size' => '60'));?>
+	<?php echo $html->tagErrorMsg('User/old_password', 'Please enter the Password.');?>
+</div>
+
+<div class="optional"> 
+	<?php echo $form->labelTag('User/new_password', 'New password');?>
+ 	<?php echo $html->password('User/new_password', array('size' => '60'));?>
+	<?php echo $html->tagErrorMsg('User/new_password', 'Please enter the new Password.');?>
+</div>
+
+<div class="optional"> 
+	<?php echo $form->labelTag('User/new_password_re', 'New password (again)');?>
+ 	<?php echo $html->password('User/new_password_re', array('size' => '60'));?>
+	<?php echo $html->tagErrorMsg('User/new_password_re', 'Please re-enter the new Password.');?>
+</div>
+
+<div class="optional"> 
+	<?php echo $form->labelTag('User/first_name', 'First Name');?>
+ 	<?php echo $html->input('User/first_name', array('size' => '60'));?>
+	<?php echo $html->tagErrorMsg('User/first_name', 'Please enter the First Name.');?>
+</div>
+
+<div class="optional"> 
+	<?php echo $form->labelTag('User/last_name', 'Last Name');?>
+ 	<?php echo $html->input('User/last_name', array('size' => '60'));?>
+	<?php echo $html->tagErrorMsg('User/last_name', 'Please enter the Last Name.');?>
+</div>
+
+<div class="optional"> 
+	<?php echo $form->labelTag('User/group_id', 'Group');?>
+ 	<?php echo $html->selectTag('User/group_id', $groupArray, $html->tagValue('User/group_id'), array());?>
+	<?php echo $html->tagErrorMsg('User/group_id', 'Please select the Group.') ?>
+</div>
+
+<?php echo $html->hidden('User/id')?>
+<div class="submit">
+	<?php echo $html->submit('Save');?>
+</div>
+</form>
+<ul class="actions">
+	<li><?php echo $html->link('List users', '/users/index')?></li>
+</ul>

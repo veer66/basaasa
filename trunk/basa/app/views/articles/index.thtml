@@ -1,0 +1,59 @@
+<!--
+Basa-Asa: A web-based collaborative translation platform
+
+Copyright (c) 2006,	Vee Satayamas
+
+Permission is hereby granted, free of charge, to any person obtaining a
+copy of this software and associated documentation files (the "Software"),
+to deal in the Software without restriction, including without limitation
+the rights to use, copy, modify, merge, publish, distribute, sublicense,
+and/or sell copies of the Software, and to permit persons to whom the
+Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+DEALINGS IN THE SOFTWARE.
+--><h2>List Articles</h2>
+
+
+<table cellpadding="0" cellspacing="0">
+<tr>
+	<th>Id</th>
+	<th>Title</th>
+	<th>Status</th>
+	<th>Actions</th>
+</tr>
+<?php foreach ($articles as $article): ?>
+<tr>
+	<td><?php echo $article['Article']['id'] ?></td>
+	<td><div align="left"><?php echo $article['Article']['title'] ?></div></td>
+    <td class="status">
+    <?
+     if($article['Article']['need_checking']) {
+         echo "Need checking. ";
+     }
+     if($article['Article']['reserved']) {
+     	echo "จองแปล";
+     }
+    ?>
+
+    </td>
+	<td>
+		<?php echo $html->link('Detail','/articles/view/' . $article['Article']['id'])?>
+
+		<?php echo $html->link('Delete','/articles/delete/' . $article['Article']['id'], null, 'Are you sure you want to delete: id ' . $article['Article']['id'])?>
+	</td>
+</tr>
+<?php endforeach; ?>
+</table>
+
+<ul class="actions">
+	<li><?php echo $html->link('New Article', '/articles/add'); ?></li>
+</ul>
