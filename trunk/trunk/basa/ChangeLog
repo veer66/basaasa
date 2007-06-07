@@ -1,0 +1,176 @@
+2007-06-07  Vee Satayamas <vsatayamas@gmail.com>
+  * views/articles/view.thtml, 
+    models/article.php, 
+    controllers/articles_controller.php: Add new status modification 
+		method in order to fix status modification bug
+
+2007-06-02  Vee Satayamas <vsatayamas@gmail.com>
+  * app/controllers/users_controller.php: fix register bug
+  * app/controllers/users_controller.php: fix register bug
+  * app/webroot/css/basa.css: new css for basa-asa
+  * app/view/layouts/default.thtml: add "BETA" and support e-mail
+  * app/webroot/img/prachatai_en.png, 
+    app/view/layouts/default.thtml: add Prachatai-En banner and link
+
+2007-05-28  Vee Satayamas <vsatayamas@gmail.com>
+  * app/views/articles/view.thtml, app/views/articles/index.thtml, create_mysql.sql: change "ready" status to "reserved".
+
+2007-05-24  Vee Satayamas <vsatayamas@gmail.com>
+  * app/views/layouts/default.thtml: display username
+  * cake/app_controller.php: fix checkAdmin and checkSession
+  * app/controllers/articles_controller.php: use lazy delete
+  * app/model/article.php: use lazy delete
+  * create_mysql.sql: use lazy delete
+
+2007-05-23  Vee Satayamas <vsatayamas@gmail.com>
+  * app/webroot/favicon.ico,
+    cake/scripts/templates/skel/webroot/favicon.ico: 
+    put new favicon
+  * app/controllers/articles_controller.php: allow a front page to be 
+	seen by anonymous
+  * app/views/users/register.thtml,
+	app/controllers/users_controller.php: add a register page
+  * app/views/layouts/default.thtml: Use Basa-Asa messages insteads of 
+	CakePHP default, add login and register links
+  * app/views/articles/index.thtml: remove the link to user page
+  * create_mysql.sql: update database schema
+  * app/controllers/components/captcha.php: add kcaptcha component
+  * app/controllers/users_controller.php: add captcha
+  * app/view/users/login.php: add captcha
+  * app/view/users/register.php: add captcha
+
+2007-05-22  Vee Satayamas <vsatayamas@gmail.com>
+  * app/views/articles/index.thtml: add link to users page
+
+2006-11-09  Vee Satayamas <veetai@yahoo.com>  
+  * app/controllers/translations_controller.php: add link & diff line
+  * app/views/translations/history.thtml: fix url
+  * app/views/translations/diff.thtml: add link & diff line
+
+2006-11-08  Vee Satayamas <veetai@yahoo.com>  
+  * app/controllers/translations_controller.php: add diff ui
+  * app/views/translations/history.thtml: add diff ui
+  * vendors/Text/Diff/Renderer/unified.php: fix path
+  * vendors/Text/Diff.php: fix path
+  * vendors/Text: from vendors/text_diff
+	
+2006-11-07  Vee Satayamas <veetai@yahoo.com>
+  * app/views/comment/index.thtml: simple comment init
+  * app/controllers/comments_controller.php: simple comment init
+  * app/models/comment.php: simple comment init
+  * cake/app_controller.php: add getUserId
+  * app/controllers/translations_controllers.php: remove getUserId
+  * create_mysql.sql: add comment table
+  * vendors/text_diff: add diff util
+	
+2006-11-05  Vee Satayamas <veetai@yahoo.com>
+  * app/views/translation/edit.thtml: fix translation display bug
+  * app/views/elements/tinymce.thtml: reduce buttons
+	
+2006-11-02  Vee Satayamas <veetai@yahoo.com>
+  * app/views/translation/history.thtml: add edit translation to translation history page (bug #7597)
+	
+2006-11-01  Vee Satayamas <veetai@yahoo.com>
+  * app/views/elements/tinymce.thtml: enable resizing
+  * app/views/translation/edit.thtml: I remove textarea size assignment 
+<<<<<<< .mine
+  * create_mysql.sql: dump db schema 
+=======
+  * app/views/article/edit.thtml: I remove textarea size assignment 	
+  * create_mysql.sql: from mysqldump
+>>>>>>> .r18
+
+2006-11-01  Vee Satayamas <veetai@yahoo.com>
+  * app/controllers/article_controllers.php: enable deleting articles
+  * app/views/translation/edit.thtml: suppressing body if it does't exist
+  * app/views/elements/tinymce.thtml: add much more widgets to toolbar
+	
+2006-10-16  Vee Satayamas <veetai@yahoo.com>
+  * app/webroot/js/tinymce/jscripts/tiny_mce/themes/advanced/css/editor_content.css: enlarge default font for tinymce
+  
+2006-10-13  Vee Satayamas <veetai@yahoo.com>
+  * app/views/articles/edit.thtml: remove translating alarm
+
+2006-10-13  Vee Satayamas <veetai@yahoo.com>
+  * app/controllers/users_controllers.php: check existing username before adding users and
+  adding md5 support
+  * app/views/users/add.thtml: hide password 
+  * app/views/translations/history.thtml: fix article link
+
+2006-10-12  Vee Satayamas <veetai@yahoo.com>
+  * app/views/articles/view.thtml: allow displaying article with html
+  * app/views/articles/edit.thtml: using flay with textarea
+  * app/views/translations/edit.thtml: using flay with textarea
+  * app/controllers/users_controllers.php: use md5 to digest password
+  * app/views/users/index.thtml: remove a link to view
+  * app/controllers/users_controllers.php: preventing self deleting
+  * app/controllers/users_controllers.php: removing view function
+  * app/views/users/index.thtml: hide password
+  * app/controllers/users_controllers.php: for self editting, redirect to preference
+  * app/views/users/preference.thtml: init
+	
+2006-10-11  Vee Satayamas <veetai@yahoo.com>
+  * app/views/layouts/default.thtml: change title to Basa-Asa
+
+2006-10-10  Vee Satayamas <veetai@yahoo.com>
+  * app/controllers/users_controller.php: add scaffold
+  * app/views/users/{edit,add,view,index}.php: add scaffold
+
+2006-10-10  Vee Satayamas <veetai@yahoo.com>
+  * app/controllers/articles_controller.php: add javascript helper
+  * app/controllers/translations_controller.php: add javascript helper
+  * app/views/translations/edit.thtml: 
+  add tinymce
+  change textarea size
+
+  * app/views/articles/add.thtml: 
+  add tinymce
+
+  * app/webroot/js/tinymce: added
+
+2006-10-08  Vee Satayamas <veetai@yahoo.com>
+  * app/views/articles/view.thtml: ready button
+  * app/views/articles/index.thtml: ready state
+
+2006-10-08  Vee Satayamas <veetai@yahoo.com>
+  * app/views/articles/index.thtml: lock -> "someone is translating"
+
+2006-10-08  Vee Satayamas <veetai@yahoo.com>
+  * app/controllers/translations_controller.php: add cancel function 
+  * app/views/translations/history.thtml: add cancel button
+
+2006-10-08  Vee Satayamas <veetai@yahoo.com>
+  * app/controller/users_controller.php: add info function
+  * app/controller/translations_controller.php: add username in histroy
+  * app/views/users/info.thtml: init
+  * app/views/translations/history: add username
+  * app/model/user.php: add relation to translations
+  * app/model/translation.php: add relation to user
+
+2006-10-07  Vee Satayamas <veetai@yahoo.com>
+  * app/model/group.php: added
+  * cake/app_controller.php: add checkAdmin and isAdmin
+  * app/controller/articles_controller.php: checkAdmin in add and edit
+
+2006-10-04  Vee Satayamas <veetai@yahoo.com>
+  * app/view/translations/edit.thtml: fix Article link
+  * LICENSE: cakephp + zooid license
+
+2006-10-03  Vee Satayamas <veetai@yahoo.com>
+  * app/view/articles/add.thtml: modified scaffold 
+  * app/view/articles/index.thtml: modified scaffold 
+  * app/view/articles/view.thtml: modified scaffold 
+  * app/view/translations/history.thtml: added
+  * app/view/translations/edit.thtml: modfied scaffold 
+  * app/controller/aritcles_controller: modfied scaffold
+  * app/controller/translations_controller: modfied scaffold
+
+2006-10-02  Vee Satayamas <veetai@yahoo.com>
+  * init:
+  * app/views/layouts/default.thtml: Add default view
+  * app/views/articles/add.thtml: scaffold
+  * app/views/articles/edit.thtml: scaffold
+  * app/views/articles/index.thtml: scaffold
+  * app/views/articles/view.thtml: scaffold
+  * app/tests/app/cases/controllers: scaffold
+  * app/tests/app/cases/controllers/articles_controller.test.php: test unit

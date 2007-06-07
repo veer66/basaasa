@@ -1,0 +1,66 @@
+<!--
+Basa-Asa: A web-based collaborative translation platform
+
+Copyright (c) 2006,	Vee Satayamas
+
+Permission is hereby granted, free of charge, to any person obtaining a
+copy of this software and associated documentation files (the "Software"),
+to deal in the Software without restriction, including without limitation
+the rights to use, copy, modify, merge, publish, distribute, sublicense,
+and/or sell copies of the Software, and to permit persons to whom the
+Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+DEALINGS IN THE SOFTWARE.
+-->
+
+<h2>Register</h2>
+<form action="<?php echo $html->url('/users/register'); ?>" method="post">
+<div class="optional"> 
+	<?php echo $form->labelTag('User/username', 'Username');?>
+ 	<?php echo $html->input('User/username', array('size' => '60'));?>
+	<?php echo $html->tagErrorMsg('User/username', 'Please enter the Username.');?>
+</div>
+
+<div class="optional"> 
+	<?php echo $form->labelTag('User/email', 'E-mail address');?>
+ 	<?php echo $html->input('User/email', array('size' => '60'));?>
+	<?php echo $html->tagErrorMsg('User/email', 'Please enter the E-mail address.');?>
+</div>
+
+
+<div class="optional"> 
+	<?php echo $form->labelTag('User/new_password', 'Password');?>
+ 	<?php echo $html->password('User/new_password', array('size' => '60'));?>
+	<?php echo $html->tagErrorMsg('User/new_password', 'Please enter the Password.');?>
+</div>
+
+<div class="optional"> 
+	<?php echo $form->labelTag('User/new_password_re', 'Password again');?>
+ 	<?php echo $html->password('User/new_password_re', array('size' => '60'));?>
+	<?php echo $html->tagErrorMsg('User/new_password_re', 'Please enter the Password.');?>
+</div>
+
+<div>
+	<img src="<?php echo $html->url('/users/captcha'); ?>" /> 
+	<label for="human_verification">Human verification:</label>
+	<?php echo $html->input('User/keystr', array('size' => 20)); ?>
+</div>
+
+
+</div>
+<div class="submit">
+	<?php echo $html->submit('Register');?>
+</div>
+</form>
+<ul class="actions">
+<li><?php echo $html->link('List users', '/users/index')?></li>
+</ul>

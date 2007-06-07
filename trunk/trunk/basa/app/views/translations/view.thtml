@@ -1,0 +1,46 @@
+<!--
+Basa-Asa: A web-based collaborative translation platform
+
+Copyright (c) 2006,	Vee Satayamas
+
+Permission is hereby granted, free of charge, to any person obtaining a
+copy of this software and associated documentation files (the "Software"),
+to deal in the Software without restriction, including without limitation
+the rights to use, copy, modify, merge, publish, distribute, sublicense,
+and/or sell copies of the Software, and to permit persons to whom the
+Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+DEALINGS IN THE SOFTWARE.
+-->
+
+<h2>View Translations</h2>
+
+<dl>
+	<dt>Id</dt>
+	<dd>&nbsp;<?php echo $translation['Translation']['id']?></dd>
+	<dt>Body</dt>
+	<dd>&nbsp;<?php echo $translation['Translation']['body']?></dd>
+	<dt>Revision</dt>
+	<dd>&nbsp;<?php echo $translation['Translation']['revision']?></dd>
+	<dt>Article</dt>
+	<dd>&nbsp;<?php echo $html->link($translation['Article']['title'], '/articles/view/' .$translation['Translation']['article_id'])?></dd>
+	<dt>Title</dt>
+	<dd>&nbsp;<?php echo $translation['Translation']['title']?></dd>
+</dl>
+<ul class="actions">
+	<li><?php echo $html->link('Edit Translation',   '/translations/edit/' . $translation['Translation']['id']) ?> </li>
+	<li><?php echo $html->link('Delete Translation', '/translations/delete/' . $translation['Translation']['id'], null, 'Are you sure you want to delete: id ' . $translation['Translation']['id'] . '?') ?> </li>
+	<li><?php echo $html->link('List Translations',   '/translations/index') ?> </li>
+	<li><?php echo $html->link('New Translation',	'/translations/add') ?> </li>
+	<li> <?php echo $html->link( 'List Articles', '/articles/index/')?> </li>
+</ul>
+

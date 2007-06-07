@@ -1,0 +1,44 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>BasaAsa : <?php echo $title_for_layout;?></title>
+<link rel="icon" href="<?php echo $this->webroot . 'favicon.ico';?>" type="image/x-icon" />
+<link rel="shortcut icon" href="<?php echo $this->webroot . 'favicon.ico';?>" type="image/x-icon" />
+<?php echo $html->css('basa');?>
+</head>
+<body>
+	<div id="container">
+		<div align="right"> 
+			<?php
+				if(!$session->check('User')) {
+					echo "Anonymous";
+				} else {
+					$user = $session->read('User');
+					echo $user['username'];
+				}				
+			?> 	|
+			<a href="<? echo $html->url('/'); ?>">Home</a> |
+			<a href="<? echo $html->url('/users/register'); ?>">Register</a> |
+			<a href="<? echo $html->url('/users/login'); ?>">Login</a> |
+			<a href="<? echo $html->url('/users/logout'); ?>">Logout</a>
+			&nbsp 
+		</div>
+		<div id="header">
+		  <h1>ภาษาอาสา/BasaAsa <span class="beta">BETA</span></h1> 
+		</div>
+		<div id="content">
+			<?php if ($session->check('Message.flash'))
+					{
+						$session->flash();
+					}
+					echo $content_for_layout;
+			?>
+		</div>
+		<div id="footer">
+			&nbsp;พบปัญหา ความไม่สะดวกในระบบใช้งาน อีเมล์บอกเล่านะคะ ที่ <a href="mailto:editor@prachatai.com">editor@prachatai.com</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<a href="http://www.prachatai.com/english/"><?php echo $html->image('prachatai_en.png', array('alt'=>"Prachatai in English", 'border'=>"0"));?></a>
+		</div>
+	</div>
+</body>
+</html>

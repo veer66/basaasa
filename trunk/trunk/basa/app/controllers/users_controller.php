@@ -1,0 +1,279 @@
+<?php
+/* 
+ * Basa-Asa: A web-based collaborative translation platform
+ *
+ * Copyright (C) 2006  Vee Satayamas
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a
+ * copy of this software and associated documentation files (the "Software"),
+ * to deal in the Software without restriction, including without limitation
+ * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+ * and/or sell copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+ * DEALINGS IN THE SOFTWARE.
+ */
+ 
+class UsersController extends AppController
+{
+	//var $scaffold;
+	var $name = 'Users';
+	var $helpers = array('Html', 'Form' , 'Text');
+
+
+ 	var $components = array('Session', 'Captcha'); 
+	
+	function captcha()
+	{
+        $this->Captcha->render();
+    }
+
+    function login()
+    {
+        //Don't show the error message if no data has been submitted.
+        $this->set('error', false); 
+		
+		
+        // If a user has submitted form data:
+        if (!empty($this->data))
+        {
+            // First, let's see if there are any users in the database
+            // with the username supplied by the user using the form:
+            $someone = $this->User->findByUsername($this->data['User']['username']);
+
+            // At this point, $someone is full of user data, or its empty.
+            // Let's compare the form-submitted password with the one in 
+            // the database.
+
+            if(!empty($someone['User']['password']) && 
+				$someone['User']['password'] == md5($this->data['User']['password']) && 
+				($this->data['User']['keystr'] == $this->Session->read('captcha')))
+            {
+                // Note: hopefully your password in the DB is hashed, 
+                // so your comparison might look more like:
+                // md5($this->data['User']['password']) == ...
+
+                // This means they were the same. We can now build some basic
+                // session information to remember this user as 'logged-in'.
+
+                $this->Session->write('User', $someone['User']);
+
+                // Now that we have them stored in a session, forward them on
+                // to a landing page for the application. 
+
+                $this->redirect('/');
+            }
+            // Else, they supplied incorrect data:
+            else
+            {
+
+                // Remember the $error var in the view? Let's set that to true:
+                $this->set('error', true);
+				
+            }
+        }
+    }
+
+    function logout()
+    {
+        // Redirect users to this action if they click on a Logout button.
+        // All we need to do here is trash the session information:
+
+        $this->Session->delete('User');
+
+        // And we should probably forward them somewhere, too...
+     
+        $this->redirect('/');
+    }
+
+    function info($id) 
+    {
+        $this->data = $this->User->read(null, $id);
+
+    }
+
+
+	function index() {
+        $this->checkAdmin();
+		$this->User->recursive = 0;
+		$this->set('users', $this->User->findAll());
+	}
+	
+	function register() {
+		if(empty($this->data)) {
+			$this->render();
+		} else {
+			$this->cleanUpFields();
+			if($this->data['User']['keystr'] != $this->Session->read('captcha')) {
+				$this->Session->setFlash('Incorrect human verification key');
+				return;				
+			}
+			uses('sanitize');
+            $san = new Sanitize();
+            $username = $san->sql($this->data['User']['username']);
+			$user = $this->User->find("username = '$username'");
+			if($user) {
+				$this->Session->setFlash('Username is already used.');
+				return;
+			}
+			
+			//FIXME: weather san is needed?
+			$email = $this->data['User']['email'];
+			
+			if ($email == "") {
+				$this->Session->setFlash('E-mail address is needed');
+				return;								
+			}
+			
+			$db_email = $this->User->find("email = '$email'");
+			if($db_email) {
+				$this->Session->setFlash('E-mail address is already used.');
+				return;				
+			}
+			
+			if ($this->data['User']['new_password'] == "") {
+				$this->Session->setFlash('Password address is needed');
+				return;								
+			}
+			
+			if($this->data['User']['new_password_re'] !=
+			 	$this->data['User']['new_password']) {
+					$this->Session->setFlash('Password is mismatch');
+					return;								
+			}
+			$this->data['User']['password'] = md5($this->data['User']['new_password']);
+			$this->data['User']['group_id'] = 2;
+			if($this->User->save($this->data,  true)) {
+				$this->Session->setFlash('The User has been saved');
+        		$this->redirect('/users/login');
+			} else {
+				$this->Session->setFlash('Please correct errors below.');
+			}
+			
+		}
+	}
+	
+	function add() {
+        $this->checkAdmin();
+		if(empty($this->data)) {
+			$this->set('groupArray', $this->User->Group->generateList());
+			$this->render();
+		} else {
+			$this->cleanUpFields();
+            uses('sanitize');
+            $san = new Sanitize();
+            $username = $san->sql($this->data['User']['username']);
+            $user = $this->User->find("username = '$username'");
+            if($user) { //$this->User->find("username =" . $this->data['User']['username'])) {
+                $this->Session->setFlash('Username is already used.');
+                $this->set('groupArray', $this->User->Group->generateList());
+            } else {
+                if($this->User->save($this->data,  true, array("first_name", "last_name", "group_id", "username")) && 
+                   $this->data['User']['new_password']  &&
+                   $this->data['User']['new_password'] == $this->data['User']['new_password_re'] &&
+                   $this->User->saveField('password', md5($this->data['User']['new_password_re']))) {
+                    $this->Session->setFlash('The User has been saved');
+                    $this->redirect('/users/index');
+                } else {
+                    $this->Session->setFlash('Please correct errors below.');
+                    $this->set('groupArray', $this->User->Group->generateList());
+                }
+            }
+		}
+	}
+
+    function preference($id) {
+        $this->checkSession();
+        if($this->userId() == $id) {
+            if(empty($this->data)) {
+                $this->data = $this->User->read(null, $id);
+                $this->set('groupArray', $this->User->Group->generateList());
+            } else {
+                $this->cleanUpFields(); // FIXME: wtf is this command?
+                $user = $this->getUser();
+                $ok = False;
+                
+                if($user['password'] == md5($this->data['User']['old_password']) &&
+                   $this->User->save($this->data, true, array("first_name", "last_name", "group_id"))) {
+                    if(!$this->data['User']['new_password']) {
+                        $ok = True;
+                    } else if($this->data['User']['new_password'] == $this->data['User']['new_password_re']) {
+                        $h = md5($this->data['User']['new_password']);
+                        if($this->User->saveField('password', $h)) {
+                            $ok = True;
+                        }
+                    }
+                }
+
+                if($ok) {
+                    $this->Session->setFlash('The User has been saved');
+                    $this->redirect('/users/index');
+                } else {
+                    $this->Session->setFlash('Please correct errors below.');
+                    $this->set('groupArray', $this->User->Group->generateList());
+                }
+            }
+        } else {
+            $this->redirect("/users/login/");
+        }
+    }
+
+	function edit($id) {
+        $this->checkAdmin();
+        if($this->userId() == $id) {
+            $this->redirect('/users/preference/' . $id); 
+        }
+		if(empty($this->data)) {
+			$this->data = $this->User->read(null, $id);
+			$this->set('groupArray', $this->User->Group->generateList());
+		} else {
+			$this->cleanUpFields();
+			if($this->User->save($this->data, true, 
+                                 array("first_name", "last_name", "group_id")
+                                 )
+               ) {
+                if($this->data['User']['new_password']) {
+                    if($this->User->saveField('password', 
+                                              md5($this->data['User']['new_password']))) {
+                           $ok = True;
+                        }
+                } else {
+                    $ok = True;
+                }
+            }
+            if($ok) {
+                $this->Session->setFlash('The User has been saved');
+                $this->redirect('/users/index');
+            } else {
+                $this->Session->setFlash('Please correct errors below.');
+                $this->set('groupArray', $this->User->Group->generateList());
+            }
+        }
+	}
+
+	function delete($id) {
+        $this->checkAdmin();
+        $delFlag = False;
+        if($this->userId() != $id) {
+            if($this->User->del($id)) {
+                $this->Session->setFlash('The User deleted: id '.$id.'');
+                $delFlag = True;
+            }
+        }
+        if(!$delFlag) {
+            $this->Session->setFlash('Cannot delete: id '.$id.'');
+        }
+        $this->redirect('/users/index');
+    }
+
+}
+?>
