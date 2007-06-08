@@ -74,6 +74,7 @@ class ArticlesController extends AppController
     }
 
     function edit($id) {
+		$this->log("พยายามแก้ไขโดย " . $this->getUsername() , LOG_DEBUG);
         $this->checkAdmin();
         if(empty($this->data)) {
             $this->data = $this->Article->read(null, $id);
@@ -81,6 +82,7 @@ class ArticlesController extends AppController
             $this->cleanUpFields();
             if($this->Article->save($this->data)) {
                 $this->Session->setFlash('The Article has been saved');
+				$this->log("แก้ไขสำเร็จ " . $this->getUsername() , LOG_DEBUG);
                 $this->redirect('/articles/view/' . $id);
             } else {
                 $this->Session->setFlash('Please correct errors below.');
