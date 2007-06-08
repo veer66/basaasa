@@ -38,6 +38,9 @@
  * @subpackage	cake.cake
  */
 class AppController extends Controller {
+	
+	
+	
     function checkSession() {
         if (!$this->Session->check('User')) {
             $this->redirect('/users/login');
@@ -78,6 +81,15 @@ class AppController extends Controller {
             return Null;
         }
     }
+
+	function getUsername() {
+		$user = $this->getUser();
+		if($user) {
+			return $user['username'];
+		} else {
+			return "anonymous";
+		}
+	}
 
     function checkAdmin() {
         if(!$this->isAdmin()) {
