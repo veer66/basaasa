@@ -1,3 +1,11 @@
+2007-06-09  Vee Satayamas <vsatayamas@gmail.com>
+  * controllers/users_controllers.php, 
+    view/user/users/login.thtml: remove captcha from login page
+
+2007-06-08  Vee Satayamas <vsatayamas@gmail.com>
+  * controllers/articles_controller.php: add log when people try to editing article
+  * cake/app_controller.php: add getUsername (for using in logging)
+
 2007-06-07  Vee Satayamas <vsatayamas@gmail.com>
   * views/articles/view.thtml, 
     models/article.php, 
