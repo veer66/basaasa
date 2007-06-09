@@ -55,8 +55,7 @@ class UsersController extends AppController
             // the database.
 
             if(!empty($someone['User']['password']) && 
-				$someone['User']['password'] == md5($this->data['User']['password']) && 
-				($this->data['User']['keystr'] == $this->Session->read('captcha')))
+				$someone['User']['password'] == md5($this->data['User']['password']))				
             {
                 // Note: hopefully your password in the DB is hashed, 
                 // so your comparison might look more like:

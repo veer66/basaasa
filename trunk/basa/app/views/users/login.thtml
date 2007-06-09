@@ -35,11 +35,7 @@ DEALINGS IN THE SOFTWARE.
     <label for="password">Password:</label>
     <?php echo $html->password('User/password', array('size' => 20)); ?>
 </div>
-<div>
-	<img src="<?php echo $html->url('/users/captcha'); ?>" /> 
-	<label for="human_verification">Human verification:</label>
-	<?php echo $html->input('User/keystr', array('size' => 20)); ?>
-</div>
+
 <div>
     <?php echo $html->submit('Login'); ?>
 </div>
