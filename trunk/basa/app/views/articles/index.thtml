@@ -20,15 +20,17 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
---><h2>List Articles</h2>
-
-
+-->
+<h2>รายชื่อบทความ</h2>
+<ul class="actions">
+	<li><?php echo $html->link('เพิ่มบทความใหม่', '/articles/add'); ?></li>
+</ul>
 <table cellpadding="0" cellspacing="0">
 <tr>
-	<th>Id</th>
-	<th>Title</th>
-	<th>Status</th>
-	<th>Actions</th>
+	<th>ID</th>
+	<th>หัวเรื่อง</th>
+	<th>สถานะ</th>
+	<th>ดำเนินการ</th>
 </tr>
 <?php foreach ($articles as $article): ?>
 <tr>
@@ -37,23 +39,17 @@ DEALINGS IN THE SOFTWARE.
     <td class="status">
     <?
      if($article['Article']['need_checking']) {
-         echo "Need checking. ";
+         echo "ขอให้ตรวจทาน";
      }
      if($article['Article']['reserved']) {
      	echo "จองแปล";
      }
     ?>
-
     </td>
 	<td>
-		<?php echo $html->link('Detail','/articles/view/' . $article['Article']['id'])?>
-
-		<?php echo $html->link('Delete','/articles/delete/' . $article['Article']['id'], null, 'Are you sure you want to delete: id ' . $article['Article']['id'])?>
+		<?php echo $html->link('ดูรายละเอียด','/articles/view/' . $article['Article']['id'])?>
+		<?php echo $html->link('ลบ','/articles/delete/' . $article['Article']['id'], null, 'Are you sure you want to delete: id ' . $article['Article']['id'])?>
 	</td>
 </tr>
 <?php endforeach; ?>
 </table>
-
-<ul class="actions">
-	<li><?php echo $html->link('New Article', '/articles/add'); ?></li>
-</ul>
