@@ -36,7 +36,7 @@
 			?>
 		</div>
 		<div id="footer">
-			&nbsp;พบปัญหา ความไม่สะดวกในระบบใช้งาน อีเมล์บอกเล่านะคะ ที่ <a href="mailto:editor@prachatai.com">editor@prachatai.com</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			พบปัญหาหรือไม่สะดวกในการใช้งาน อีเมลบอกเล่านะคะ ที่ <a href="mailto:editor@prachatai.com">editor@prachatai.com</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 			<a href="http://www.prachatai.com/english/"><?php echo $html->image('prachatai_en.png', array('alt'=>"Prachatai in English", 'border'=>"0"));?></a>
 		</div>
 	</div>
