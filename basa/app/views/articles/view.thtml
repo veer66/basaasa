@@ -21,24 +21,21 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
 -->
-
-<h2>View Articles</h2>
-
-<?
+<?php
 $tr_count = count($article['Translation']);
 ?>
 
-<p>
+<h2>รายละเอียดบทความ</h2>
+
 <table cellpadding="0" cellspacing="0">
 <tr>
-<th>&nbsp;</th><th>Source</th><th>Translation</th>
+<th>&nbsp;</th><th>ต้นฉบับ</th><th>บทแปล</th>
 </tr>
 <tr>
 <th>Title</th>
 <td class="title">
 <div align="left"><?php echo $article['Article']['title']?></div>
 </td>
-
 <td class="title">
 <div align="left">
   <?
@@ -50,19 +47,15 @@ $tr_count = count($article['Translation']);
   ?>
 </div>
 </td>
-
 </tr>
 
 <tr>
-<th>Body</th>
-
+<th>เนื้อความ</th>
 <td class="body">
-	<div align="left">
-     <?php echo $text->flay($article['Article']['body'], true) ?>
-	</div>
+<div align="left">
+<?php echo $text->flay($article['Article']['body'], true) ?>
+</div>
 </td>
-
-
 <td class="body">
 <div align="left">
 <?
@@ -76,16 +69,13 @@ $tr_count = count($article['Translation']);
 </td>
 </tr>
 </table>
-</p>
-
 
 <div class="optional">
 <form action="<? echo $html->url('/articles/status_update/'. $article['Article']['id']); ?>" method="post" name="need"> 
 	<?php echo $html->checkbox('Article/need_checking', 
                               null, 
                               array('onclick' => "document.need.submit()") );?>
- 	<?php echo $form->labelTag('Article/need_checking', 'Need Checking');?>
-
+ 	<?php echo $form->labelTag('Article/need_checking', 'ขอให้ตรวจทาน');?>
 	<?php echo $html->checkbox('Article/reserved', 
                               null, 
                               array('onclick' => "document.need.submit()") );?>
@@ -93,22 +83,12 @@ $tr_count = count($article['Translation']);
 </form>
 </div>
 
-
-
 <ul class="actions">
-	<li><?php echo $html->link('Edit source',   '/articles/edit/' . $article['Article']['id']) ?> </li>
-
-	<li><?php echo $html->link('Home',   '/articles/index') ?> </li>
+	<li><?php echo $html->link('แก้ไขต้นฉบับ',   '/articles/edit/' . $article['Article']['id']) ?> </li>
+	<li><?php echo $html->link('หน้าแรก',   '/articles/index') ?> </li>
 </ul>
-
-
-
-
-
 <ul class="actions">
-<li><?php echo $html->link('Edit translation', '/translations/edit/' . $article['Article']['id'])?></li>
-<li><?php echo $html->link('Translation history', '/translations/history/' . $article['Article']['id'])?></li>
-<li><?php echo $html->link('Comment', '/comments/index/' . $article['Article']['id'])?></li>
+	<li><?php echo $html->link('แก้ไขบทแปล', '/translations/edit/' . $article['Article']['id'])?></li>
+	<li><?php echo $html->link('ประวัติบทแปล', '/translations/history/' . $article['Article']['id'])?></li>
+	<li><?php echo $html->link('ความคิดเห็น', '/comments/index/' . $article['Article']['id'])?></li>
 </ul>
-</div>
-
