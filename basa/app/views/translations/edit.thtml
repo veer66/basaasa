@@ -22,30 +22,29 @@ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
 -->
 
-<?php echo $this->renderElement('tinymce',array('preset' => 'basic')); ?> 
-<h2>New Translation</h2>
+<?php echo $this->renderElement('tinymce',array('preset' => 'basic')); ?>
+
+<h2>แก้ไขบทแปล</h2>
+
 <form action="<? echo $html->url('/translations/edit/'.$html->tagValue('Translation/article_id')); ?>" method="post">
 
-<p>
 <table cellpadding="0" cellspacing="0">
 <tr>
-<th>&nbsp;</th><th>Source</th><th>Translation</th>
+<th>&nbsp;</th><th>ต้นฉบับ</th><th>บทแปล</th>
 </tr>
 <tr>
-<th>Title</th>
+<th>หัวเรื่อง</th>
 <td class="title">
 <?php echo $article['Article']['title']?>
 </td>
 
 <td class="title">
 <?php echo $html->input('Translation/title', array('size' => '40'));?>
-
 </td>
-
 </tr>
 
 <tr>
-<th>Body</th>
+<th>เนื้อความ</th>
 
 <td class="body">
      <?  echo $text->flay($article['Article']['body'], true); ?>
@@ -53,21 +52,18 @@ DEALINGS IN THE SOFTWARE.
 <td class="body">
 
 <textarea name="data[Translation][body]"  id="TranslationBody">
-<? 
+<?php 
      if(array_key_exists('body', $this->controller->data['Translation'])) {
          echo $text->flay($this->controller->data['Translation']['body'], true); 
      }
 ?>
 </textarea>
 
-<?php #echo $html->textarea('Translation/body', array('cols' => '40', 'rows' => '10'));
-?>
-
-
+<?php #echo $html->textarea('Translation/body', array('cols' => '40', 'rows' => '10')); ?>
 </td>
 </tr>
 </table>
-</p>
+
 <?php echo $html->hiddenTag('Translation/article_id') ?>
 <?php echo $html->hiddenTag('Translation/revision') ?>
 
@@ -77,6 +73,7 @@ DEALINGS IN THE SOFTWARE.
 </p>
 
 </form>
+
 <ul class="actions">
-<li><?php echo $html->link('Article', '/articles/view/'. $html->tagValue('Translation/article_id')); ?></li>
+<li><?php echo $html->link('ดูบทความ', '/articles/view/'. $html->tagValue('Translation/article_id')); ?></li>
 </ul>

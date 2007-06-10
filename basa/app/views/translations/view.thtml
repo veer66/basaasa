@@ -22,25 +22,25 @@ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
 -->
 
-<h2>View Translations</h2>
+<h2>ดูบทแปล</h2>
 
 <dl>
-	<dt>Id</dt>
+	<dt>ID</dt>
 	<dd>&nbsp;<?php echo $translation['Translation']['id']?></dd>
-	<dt>Body</dt>
+	<dt>เนื้อความ</dt>
 	<dd>&nbsp;<?php echo $translation['Translation']['body']?></dd>
-	<dt>Revision</dt>
+	<dt>รุ่น</dt>
 	<dd>&nbsp;<?php echo $translation['Translation']['revision']?></dd>
-	<dt>Article</dt>
+	<dt>บทความ</dt>
 	<dd>&nbsp;<?php echo $html->link($translation['Article']['title'], '/articles/view/' .$translation['Translation']['article_id'])?></dd>
-	<dt>Title</dt>
+	<dt>หัวเรื่อง</dt>
 	<dd>&nbsp;<?php echo $translation['Translation']['title']?></dd>
 </dl>
 <ul class="actions">
-	<li><?php echo $html->link('Edit Translation',   '/translations/edit/' . $translation['Translation']['id']) ?> </li>
-	<li><?php echo $html->link('Delete Translation', '/translations/delete/' . $translation['Translation']['id'], null, 'Are you sure you want to delete: id ' . $translation['Translation']['id'] . '?') ?> </li>
-	<li><?php echo $html->link('List Translations',   '/translations/index') ?> </li>
-	<li><?php echo $html->link('New Translation',	'/translations/add') ?> </li>
-	<li> <?php echo $html->link( 'List Articles', '/articles/index/')?> </li>
+	<li><?php echo $html->link('แก้ไขบทแปล',   '/translations/edit/' . $translation['Translation']['id']) ?> </li>
+	<li><?php echo $html->link('ลบบทแปล', '/translations/delete/' . $translation['Translation']['id'], null, 'Are you sure you want to delete: id ' . $translation['Translation']['id'] . '?') ?> </li>
+	<li><?php echo $html->link('ดูรายการบทแปล',   '/translations/index') ?> </li>
+	<li><?php echo $html->link('เพิ่มบทแปลใหม่',	'/translations/add') ?> </li>
+	<li> <?php echo $html->link( 'ดูรายการบทความต้นฉบับ', '/articles/index/')?> </li>
 </ul>
 
