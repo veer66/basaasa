@@ -22,9 +22,7 @@ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
 -->
 
-<h2>Compare versions</h2>
+<h2>เปรียบเทียบรุ่น</h2>
 
-    
-<?  echo $text->flay($d, false); ?>
-<? echo $html->link("Translation history", "/translations/history/" . $article_id) ?>
-
+<? echo $text->flay($d, false); ?>
+<? echo $html->link("ประวัติบทแปล", "/translations/history/" . $article_id) ?>
