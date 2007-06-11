@@ -1,3 +1,6 @@
+2007-06-11  Vee Satayamas <vsatayamas@gmail.com>
+  * relicense to GPL v2
+
 2007-06-09  Vee Satayamas <vsatayamas@gmail.com>
   * controllers/users_controllers.php, 
     view/user/users/login.thtml: remove captcha from login page
