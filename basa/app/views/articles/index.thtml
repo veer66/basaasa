@@ -39,8 +39,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
      if($article['Article']['need_checking']) {
          echo "ขอให้ตรวจทาน";
      }
-     if($article['Article']['reserved']) {
-     	echo "จองแปล";
+	
+     if($article['Reservation']) {
+              	echo "จองแปล";
      }
     ?>
     </td>

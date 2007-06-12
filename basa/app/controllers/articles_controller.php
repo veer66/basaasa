@@ -27,9 +27,10 @@ class ArticlesController extends AppController
 	var $name = 'Articles';
 	var $helpers = array('Html', 'Form' , 'Text', 'Javascript');
 
+
     function index() {
 		
-        $this->Article->recursive = 0;
+        $this->Article->recursive = 1;
         $this->set('articles', $this->Article->findNormal());
     }
 
@@ -86,11 +87,64 @@ class ArticlesController extends AppController
         }
     }
 
-    function view($id) {
-		$this->checkSession();
-        $this->set('article', $this->Article->read(null, $id));
-        $this->data = $this->Article->read(null, $id);
-    }
+	function prepareReservationData($article_id) {		
+		return $this->Article->Reservation->findAll("article_id = $article_id");
+	}
+	
+	function isReservedByCurrentUser($article_id) {
+		if($this->userId() != null) {
+			$user_id = $this->userId();
+			$r = $this->Article->Reservation->findAll("article_id = $article_id and user_id = $user_id");
+			if($r) {
+				return true;
+			}
+		} 
+		return false;
+	}
 
+    function view($id) {
+		// FIXME: Is $is needed to be validated?
+		$this->checkSession();
+		$article = $this->Article->read(null, $id);
+		
+		// FIXME: After fixing view.thtml 
+		// $this->data only may be enough
+		
+		$reservations = $this->prepareReservationData($id);
+		
+		$this->set('is_reserved_by_this_user', $this->isReservedByCurrentUser($id));
+		
+        $this->set('article', $article); 
+
+		$this->set('reservations', $reservations);
+        $this->data = $article;
+    }
+	
+	function reservation_update($id) {
+		$this->checkSession();
+		$this->cleanUpFields();
+		$user_id = $this->userId();
+
+		if($this->data['Reservation']['cancel'] != "1") {
+			$this->data['Reservation']['user_id'] = $user_id;
+			$this->data['Reservation']['article_id'] = $id;
+			$this->data['Reservation']['expected_submission_date'] =
+				$this->data['Reservation']['expected_submission_date_year'] . "-" .
+				$this->data['Reservation']['expected_submission_date_month'] . "-" .
+				$this->data['Reservation']['expected_submission_date_day'];
+	        if($this->Article->Reservation->save($this->data)) {
+	            $this->Session->setFlash('จองแปลเรียบร้อยแล้ว');
+	        } else {
+	            $this->Session->setFlash('พบปัญหาในการจองแปล');
+	        }
+    	} else {
+			if($this->Article->Reservation->delByArticleIdAndUserId($id, $user_id)) {
+				$this->Session->setFlash('ยกเลิกจองแปลเรียบร้อยแล้ว');
+	        } else {
+	            $this->Session->setFlash('พบปัญหาในการยกเลิกการจองแปล');
+	        }
+		}
+		$this->redirect('/articles/view/' . $id);
+	}
 }
 ?>
