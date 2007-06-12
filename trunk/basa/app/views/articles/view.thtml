@@ -26,47 +26,64 @@ $tr_count = count($article['Translation']);
 <h2>รายละเอียดบทความ</h2>
 
 <table cellpadding="0" cellspacing="0">
-<tr>
-<th>&nbsp;</th><th>ต้นฉบับ</th><th>บทแปล</th>
-</tr>
-<tr>
-<th>Title</th>
-<td class="title">
-<div align="left"><?php echo $article['Article']['title']?></div>
-</td>
-<td class="title">
-<div align="left">
-  <?
-  if($tr_count == 0) {
-      echo "-";
-  } else {
-      echo htmlspecialchars($article['Translation']['0']['title']);
-  }
-  ?>
-</div>
-</td>
-</tr>
+	<tr>
+		<th>&nbsp;</th><th>ต้นฉบับ</th><th>บทแปล</th>
+	</tr>
+	<tr>
+		<th>Title</th>
+		<td class="title">
+			<div align="left"><?php echo $article['Article']['title']?></div>
+		</td>
+		<td class="title">
+			<div align="left">
+  			<?php
+  				if($tr_count == 0) {
+      				echo "-";
+  				} else {
+      				echo htmlspecialchars($article['Translation']['0']['title']);
+  				}
+  			?>
+			</div>
+		</td>
+	</tr>
 
-<tr>
-<th>เนื้อความ</th>
-<td class="body">
-<div align="left">
-<?php echo $text->flay($article['Article']['body'], true) ?>
-</div>
-</td>
-<td class="body">
-<div align="left">
-<?
-  if($tr_count == 0) {
-      echo "-";
-  } else {
-      echo $text->flay($article['Translation']['0']['body'], true);
-  }
-?>
-</div>
-</td>
-</tr>
+	<tr>
+		<th>เนื้อความ</th>
+		<td class="body">
+			<div align="left">
+				<?php echo $text->flay($article['Article']['body'], true) ?>
+			</div>
+		</td>
+		<td class="body">
+			<div align="left">
+			<?php
+  				if($tr_count == 0) {
+      				echo "-";
+  				} else {
+      				echo $text->flay($article['Translation']['0']['body'], true);
+  				}
+			?>
+			</div>
+		</td>
+	</tr>
 </table>
+
+<p>
+<h3>การจองแปล</h3>
+<table cellpadding="0" cellspacing="0">
+	<tr>
+		<th>จองโดย</th><th>วันที่คาดว่าจะส่งมอบผลแปล</th>
+	</tr>
+<?php foreach ($reservations as $reservation): ?>
+
+	<tr>
+		<td><?php echo $html->link($reservation['User']['username'],   '/users/info/' . $reservation['User']['id']) ?></td>
+		<td><?php echo $reservation['Reservation']['expected_submission_date']; ?></td>
+	</tr>
+	
+<?php endforeach; ?>
+</table>
+</p>
 
 <div class="optional">
 <form action="<? echo $html->url('/articles/status_update/'. $article['Article']['id']); ?>" method="post" name="need"> 
@@ -74,12 +91,24 @@ $tr_count = count($article['Translation']);
                               null, 
                               array('onclick' => "document.need.submit()") );?>
  	<?php echo $form->labelTag('Article/need_checking', 'ขอให้ตรวจทาน');?>
-	<?php echo $html->checkbox('Article/reserved', 
-                              null, 
-                              array('onclick' => "document.need.submit()") );?>
- 	<?php echo $form->labelTag('Article/reserved', 'จองแปล');?>
 </form>
+<br/>
+<br/>
+<?php if(!$is_reserved_by_this_user): ?>
+	<form action="<? echo $html->url('/articles/reservation_update/'. $article['Article']['id']); ?>" method="post" name="need"> 
+		<?php echo $form->generateDate("Reservation/expected_submission_date", "วันที่คาดว่าจะส่งมอบบทแปล"); ?> <?php echo $html->submit('จองแปล');?>
+		<?php echo $html->hidden("Reservation/cancel", array("value" => 0)); ?>
+	</form>
+<?php else: ?>
+	<form action="<? echo $html->url('/articles/reservation_update/'. $article['Article']['id']); ?>" method="post" name="need"> 
+		<?php echo $html->hidden("Reservation/cancel", array("value" => 1)); ?>
+		<?php echo $html->submit('ยกเลิกการจองแปล');?>
+	</form>
+<?php endif; ?>
+<br/>
+<br/>	
 </div>
+
 
 <ul class="actions">
 	<li><?php echo $html->link('แก้ไขต้นฉบับ',   '/articles/edit/' . $article['Article']['id']) ?> </li>

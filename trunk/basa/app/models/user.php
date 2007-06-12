@@ -24,6 +24,6 @@ class User extends AppModel
 {
     var $name = 'User';
     var $belongsTo = array('Group');
-    var $hasMany = array('Translation');
+    var $hasMany = array('Translation', 'Reservation');
 }
 ?>

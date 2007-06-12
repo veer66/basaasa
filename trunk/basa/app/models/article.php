@@ -22,10 +22,10 @@
 class Article extends AppModel
 {
     var $name = 'Article';
-    var $hasMany = array('Translation' => 
-                         array('order' => 'revision desc'),
-                         'Comment' =>
-                         array('order' => 'timestamp desc')
+	var $displayField = 'id'; // FIXME: title must be displayed instead of id?
+    var $hasMany = array('Translation' => array('order' => 'revision desc'),
+                         'Comment' => array('order' => 'timestamp desc'),
+						 'Reservation' 
                          );
 
 	function findNormal() {
