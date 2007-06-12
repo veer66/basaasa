@@ -30,7 +30,7 @@ $tr_count = count($article['Translation']);
 		<th>&nbsp;</th><th>ต้นฉบับ</th><th>บทแปล</th>
 	</tr>
 	<tr>
-		<th>Title</th>
+		<th>หัวเรื่อง</th>
 		<td class="title">
 			<div align="left"><?php echo $article['Article']['title']?></div>
 		</td>
