@@ -29,7 +29,7 @@ class Article extends AppModel
                          );
 
 	function findNormal() {
-		return $this->findAll('deleted = 0');
+		return $this->findAll('deleted = 0', null, "id DESC");
 	}
 	
 	function lazyDel($id) {
