@@ -86,16 +86,18 @@ $tr_count = count($article['Translation']);
 </p>
 
 <div class="optional">
+
 <form action="<? echo $html->url('/articles/status_update/'. $article['Article']['id']); ?>" method="post" name="need"> 
 	<?php echo $html->checkbox('Article/need_checking', 
                               null, 
                               array('onclick' => "document.need.submit()") );?>
  	<?php echo $form->labelTag('Article/need_checking', 'ขอให้ตรวจทาน');?>
 </form>
+
 <br/>
 <br/>
 <?php if(!$is_reserved_by_this_user): ?>
-	<form action="<? echo $html->url('/articles/reservation_update/'. $article['Article']['id']); ?>" method="post" name="need"> 
+	<form action="<? echo $html->url('/articles/reservation_update/'. $article['Article']['id']); ?>" method="post" name="reservation_form"> 
 		<?php echo $form->generateDate("Reservation/expected_submission_date", "วันที่คาดว่าจะส่งมอบบทแปล"); ?> <?php echo $html->submit('จองแปล');?>
 		<?php echo $html->hidden("Reservation/cancel", array("value" => 0)); ?>
 	</form>

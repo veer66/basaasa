@@ -45,7 +45,7 @@ class Article extends AppModel
 		$article = $this->read(null, $id);
 		if($article) {
 
-			$article['Article']['reserved'] = $status['Article']['reserved'];
+			// $article['Article']['reserved'] = $status['Article']['reserved'];
 			$article['Article']['need_checking'] = $status['Article']['need_checking'];
 			return $this->save($article);
 		} 
