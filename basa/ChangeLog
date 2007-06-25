@@ -1,3 +1,17 @@
+2007-06-25  Vee Satayamas <vsatayamas@gmail.com>
+  * app/models/article.php: journal style article ordering 
+  * app/controllers/articles_controller.php,
+    app/views/articles/view.thtml: fix need_checking bug
+
+2007-06-12  Vee Satayamas <vsatayamas@gmail.com>
+  * app/models/user.php,
+    app/models/article.php: add relation to reservation   
+  * app/controllers/articles_controller.php,
+    app/views/articles/view.thtml,
+    app/views/articles/index.thtml: add reservation with reserver
+    and expected submission date
+  * create_mysql.sql: update sql for creating tables.
+
 2007-06-11  Vee Satayamas <vsatayamas@gmail.com>
   * relicense to GPL v2
 
