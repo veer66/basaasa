@@ -1,3 +1,14 @@
+2007-07-08  Vee Satayamas <vsatayamas@gmail.com>
+  * app/controllers/translations_controller.php: inject $article to view
+    even editing fails
+  * app/model/article.php: validating body and title as not empty
+  * app/model/translation.php: validating body and title as not empty
+  * app/model/user.php: validating username, password, first_name,
+    last_name as not empty, email as email address.
+  * app/controllers/comments_controller.php: redirect to index/$article_id 
+    when adding fails
+  * app/model/comment.php: validating comment as not empty
+
 2007-06-25  Vee Satayamas <vsatayamas@gmail.com>
   * app/models/article.php: journal style article ordering 
   * app/controllers/articles_controller.php,

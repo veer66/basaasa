@@ -21,6 +21,9 @@
  
 class Translation extends AppModel 
 {
+	var $validate = array("title" => VALID_NOT_EMPTY,
+						  "body" => VALID_NOT_EMPTY);
+						
     var $name = 'Translation';
     var $belongsTo = array('Article', 'User');
 }

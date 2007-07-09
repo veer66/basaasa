@@ -51,11 +51,12 @@ class CommentsController extends AppController
 			if($this->Comment->save($this->data)) {
 				$this->Session->setFlash('The Comment has been saved');
 				$this->redirect('/comments/index/' . $this->data['Comment']['article_id']);
-			} else {
-				$this->Session->setFlash('Please correct errors below.');
+			} else {				
 				$this->set('articleArray', $this->Comment->Article->generateList());
 				$this->set('userArray', $this->Comment->User->generateList());
-			}
+				$this->Session->setFlash('Please correct errors below.');
+				$this->redirect('/comments/index/' . $this->data['Comment']['article_id']);
+			} 
 		}
 	}
 

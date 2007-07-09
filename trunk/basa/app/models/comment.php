@@ -23,5 +23,6 @@ class Comment extends AppModel
 {
     var $name = 'Comment';
     var $belongsTo = array('Article', 'User');
+    var $validate = array('comment' => VALID_NOT_EMPTY);
 }
 ?>

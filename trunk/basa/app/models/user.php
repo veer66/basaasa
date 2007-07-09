@@ -25,5 +25,10 @@ class User extends AppModel
     var $name = 'User';
     var $belongsTo = array('Group');
     var $hasMany = array('Translation', 'Reservation');
+	var $validate = array('username' => VALID_NOT_EMPTY,
+						  'password' => VALID_NOT_EMPTY,
+						  'first_name' => VALID_NOT_EMPTY,
+						  'last_name' => VALID_NOT_EMPTY,
+						  'email' => VALID_EMAIL);
 }
 ?>
