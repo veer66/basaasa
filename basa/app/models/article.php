@@ -21,6 +21,9 @@
  
 class Article extends AppModel
 {
+	var $validate = array("title" => VALID_NOT_EMPTY,
+						  "body" => VALID_NOT_EMPTY);
+						
     var $name = 'Article';
 	var $displayField = 'id'; // FIXME: title must be displayed instead of id?
     var $hasMany = array('Translation' => array('order' => 'revision desc'),

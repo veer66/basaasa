@@ -93,6 +93,7 @@ class TranslationsController extends AppController
                 $this->Translation->Article->save($a);
                 $this->redirect('/articles/view/' . $this->data['Translation']['article_id']);
             } else {
+				$this->set('article', $this->Translation->Article->read(null, $article_id));
                 $this->Session->setFlash('Please correct errors below.');            
             }
         }
