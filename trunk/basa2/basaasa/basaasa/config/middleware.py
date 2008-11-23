@@ -11,6 +11,8 @@ from routes.middleware import RoutesMiddleware
 
 from basaasa.config.environment import load_environment
 
+import authkit.authenticate
+
 def make_app(global_conf, full_stack=True, **app_conf):
     """Create a Pylons WSGI application and return it
 
@@ -53,7 +55,8 @@ def make_app(global_conf, full_stack=True, **app_conf):
             app = StatusCodeRedirect(app)
         else:
             app = StatusCodeRedirect(app, [400, 401, 403, 404, 500])
-
+    app = authkit.authenticate.middleware(app, app_conf)  
+    
     # Establish the Registry for this application
     app = RegistryManager(app)
 
