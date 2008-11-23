@@ -3,6 +3,12 @@ import sqlalchemy as sa
 from sqlalchemy import orm
 
 from basaasa.model import meta
+import elixir  
+
+sm = orm.sessionmaker(autoflush=True, autocommit=True)  
+elixir.session = orm.scoped_session(sm) 
+meta.Session = elixir.session
+elixir.options_defaults.update({'shortnames': True})
 
 def init_model(engine):
     """Call me before using any of the tables or classes in the model"""
@@ -12,10 +18,8 @@ def init_model(engine):
     #                           autoload_with=engine)
     #orm.mapper(Reflected, reflected_table)
 
-    sm = orm.sessionmaker(autoflush=True, autocommit=True, bind=engine)
-
+    elixir.metadata.bind = engine
     meta.engine = engine
-    meta.Session = orm.scoped_session(sm)
 
 
 ## Non-reflected tables may be defined and mapped at module level
@@ -36,3 +40,7 @@ def init_model(engine):
 #
 #class Reflected(object):
 #    pass
+
+from elixir import *
+
+elixir.setup_all()
