@@ -50,63 +50,7 @@ class UsersFromDatabase(Users):
         self.model = self.update_model(model)
         self.meta = self.model.meta        
 
-    def update_model(self, model):        
-        # following methods from a comment at
-        # http://wiki.pylonshq.com/display/pysbook/Authentication+and+Authorization
-
-        class User(Entity):
-            uid = Field(Integer, primary_key=True)
-            username = Field(String(255), unique=True, nullable=False)
-            password = Field(String(255), nullable=False)
-            group = ManyToOne("Group")
-            roles = ManyToMany("Role", lazy=True) #"roles": relation(Role, lazy=True, secondary=users_roles_table),
-            group = ManyToOne("Group") 
-
-            def __init__(
-                self,
-                username,
-                uid=None,
-                password=None,
-                group_uid=None,
-            ):
-                Entity.__init__(self)
-                self.uid         = uid
-                self.username   = username
-                self.password   = password
-                self.group_uid  = group_uid
-                
-            def __repr__(self):
-                return "User(%(username)s)" % self.__dict__
-
-        class Group(Entity):
-            uid = Field(Integer, primary_key=True)
-            name = Field(String(255), unique=True, nullable=False)
-            users = OneToMany("User")
-
-            def __init__(self, name=None):
-                Entity.__init__(self)
-                self.name = name
-                
-            def __repr__(self):
-                return "Group(%(name)s)" % self.__dict__
-                
-        class Role(Entity):
-            uid = Field(Integer, primary_key=True)
-            name = Field(String(255), unique=True, nullable=False)
-            users = ManyToMany("User", lazy=True) #"users": relation(User, lazy=True, secondary=users_roles_table)
-
-            def __init__(self, name=None):
-                Entity.__init__(self)
-                self.name = name
-            
-            def __repr__(self):
-                return "Role(%(name)s)" % self.__dict__
-                
- 
-        model.User = User
-        model.Group = Group
-        model.Role = Role
-        setup_all()       
+    def update_model(self, model):
         return model
        
     # Create Methods

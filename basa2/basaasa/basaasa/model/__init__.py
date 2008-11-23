@@ -42,5 +42,74 @@ def init_model(engine):
 #    pass
 
 from elixir import *
+from elixir.ext.versioned import acts_as_versioned
 
+class User(Entity):
+    uid = Field(Integer, primary_key=True)
+    username = Field(String(255), unique=True, nullable=False)
+    password = Field(String(255), nullable=False)
+    group = ManyToOne("Group")
+    roles = ManyToMany("Role", lazy=True) 
+    group = ManyToOne("Group") 
+
+    def __init__(
+        self,
+        username,
+        uid=None,
+        password=None,
+        group_uid=None,
+    ):
+        Entity.__init__(self)
+        self.uid         = uid
+        self.username   = username
+        self.password   = password
+        self.group_uid  = group_uid
+        
+    def __repr__(self):
+        return "User(%(username)s)" % self.__dict__
+
+class Group(Entity):
+    uid = Field(Integer, primary_key=True)
+    name = Field(String(255), unique=True, nullable=False)
+    users = OneToMany("User")
+
+    def __init__(self, name=None):
+        Entity.__init__(self)
+        self.name = name
+        
+    def __repr__(self):
+        return "Group(%(name)s)" % self.__dict__
+        
+class Role(Entity):
+    uid = Field(Integer, primary_key=True)
+    name = Field(String(255), unique=True, nullable=False)
+    users = ManyToMany("User", lazy=True) 
+
+    def __init__(self, name=None):
+        Entity.__init__(self)
+        self.name = name
+    
+    def __repr__(self):
+        return "Role(%(name)s)" % self.__dict__
+
+class Document(Entity):
+    body = Field(Unicode, nullable=False)
+    title = Field(Unicode(255))
+    checking_needed = Field(Boolean, default=False, nullable=False)
+    deleted = Field(Boolean, default=False, nullable=False)
+    latest_editor = ManyToOne("User")
+    acts_as_versioned()
+
+class Comment(Entity):
+    body = Field(Unicode)
+    author = ManyToOne("User")
+    document = ManyToOne("Document")
+    
+class Translation(Entity):
+    body = Field(Unicode)
+    title = Field(Unicode(255))
+    latest_editor = ManyToOne("User")
+    document = ManyToOne("Document")
+    acts_as_versioned()
+    
 elixir.setup_all()
