@@ -1,0 +1,3 @@
+include basaasa/config/deployment.ini_tmpl
+recursive-include basaasa/public *
+recursive-include basaasa/templates *
