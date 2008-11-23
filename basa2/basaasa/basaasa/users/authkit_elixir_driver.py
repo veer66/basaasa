@@ -33,7 +33,6 @@ class UsersFromDatabase(Users):
     Database Version
     """
     def __init__(self, model, encrypt=None):
-        print "!!! Driver"
         if encrypt is None:
             def encrypt(password):
                 return password
