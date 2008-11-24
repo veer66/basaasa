@@ -10,24 +10,11 @@ from authkit.authorize.pylons_adaptors import authorize
 
 log = logging.getLogger(__name__)
 
-class AuthController(BaseController):
+class DocController(BaseController):
 
     def index(self):
         # Return a rendered template
         #   return render('/template.mako')
         # or, Return a response
         return 'Hello World'
-    
-    def tmpl(self):
-        session['flash'] = 'this is a flash message'
-        session.save()
-        return render("/derived/auth/index.html")
-    
-    @authorize(ValidAuthKitUser())    
-    def private(self):
-        return 'private'
-    
-    def signout(self):
-        return 'signout'
-    
     
