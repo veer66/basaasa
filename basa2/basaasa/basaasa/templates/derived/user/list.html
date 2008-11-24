@@ -1,0 +1,8 @@
+<%inherit file="/base/index.html"/>
+<p>
+<ul>
+% for user in c.paginator:  
+	<li>Username: ${user.username}, </li>	  
+% endfor  
+</ul>
+</p>

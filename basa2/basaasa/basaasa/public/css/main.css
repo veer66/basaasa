@@ -5,3 +5,22 @@
     margin-bottom: 20px;
 }
 #flash p { margin: 0px; padding: 0px; }
+
+#header {
+	background: #A0FFA0;
+	text-align: center;	
+    padding: 5px;
+    border: 1px dotted #000;
+    margin-bottom: 20px;
+}
+
+table.data {
+	border: 2px #d79900 solid;
+	background: #FFA0FF ;
+	color: #404040;
+	padding: 0px;
+}
+
+.data tr {	
+	background: #FFC0FF;
+}
