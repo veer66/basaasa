@@ -1,0 +1,8 @@
+<%inherit file="/base/index.html"/>
+<p>
+<ul>
+% for document in c.paginator:  
+	<li>${document.title}</li>  
+% endfor  
+</ul>
+</p>

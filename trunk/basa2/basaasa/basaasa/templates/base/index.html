@@ -8,13 +8,21 @@
     ${self.head()}
 </head>
 <body>
-	<div>${self.flash()}</div>
+	${self.maintab()}
+	${self.header()}
+	
+	${self.flash()}
     ${next.body()}
+    ${self.menu()}
 </body>
 </html>
-
-<%def name="title()">BasaAsa</%def>
+<%def name="menu()"></%def>
+<%def name="maintab()">
+<div id="maintab">${h.link_to(label=_(u"Home"), url=h.url_for(controller="doc", action="list"))}</div>
+</%def>
+<%def name="title()">${_(u"BasaAsa")}</%def>
 <%def name="head()">${h.stylesheet_link(h.url_for('/css/main.css'))}</%def>
+<%def name="header()"><div id="header">${_(u"base")}</div></%def>
 <%def name="flash()">
     % if session.has_key('flash'):
     <div id="flash"><p>${session.get('flash')}</p></div>
@@ -23,5 +31,4 @@
         session.save()
     %>
     % endif
-
 </%def>

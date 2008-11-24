@@ -13,7 +13,7 @@ from basaasa import model
 
 log = logging.getLogger(__name__)
 
-class DocController(BaseController):
+class UserController(BaseController):
 
     def index(self):
         # Return a rendered template
@@ -23,8 +23,6 @@ class DocController(BaseController):
     
     def list(self):
         page = request.params.get('page', 1)
-        documents = model.Document.query.all()
-        c.paginator = paginate.Page(documents, page = page)  
-        return render("/derived/doc/list.html")
-    
-    
+        users = model.User.query.all()
+        c.paginator = paginate.Page(users, page = page)  
+        return render("/derived/user/list.html")
