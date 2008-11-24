@@ -1,0 +1,27 @@
+## -*- coding: utf-8 -*-
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+    <title>${self.title()}</title>
+    ${self.head()}
+</head>
+<body>
+	<div>${self.flash()}</div>
+    ${next.body()}
+</body>
+</html>
+
+<%def name="title()">BasaAsa</%def>
+<%def name="head()">${h.stylesheet_link(h.url_for('/css/main.css'))}</%def>
+<%def name="flash()">
+    % if session.has_key('flash'):
+    <div id="flash"><p>${session.get('flash')}</p></div>
+    <%  
+        del session['flash']
+        session.save()
+    %>
+    % endif
+
+</%def>
