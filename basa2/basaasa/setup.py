@@ -22,10 +22,10 @@ setup(
     include_package_data=True,
     test_suite='nose.collector',
     package_data={'basaasa': ['i18n/*/LC_MESSAGES/*.mo']},
-    #message_extractors = {'basaasa': [
-    #        ('**.py', 'python', None),
-    #        ('templates/**.mako', 'mako', None),
-    #        ('public/**', 'ignore', None)]},
+    message_extractors = {'basaasa': [
+            ('**.py', 'python', None),
+            ('templates/**.html', 'mako', None),
+            ('public/**', 'ignore', None)]},
     zip_safe=False,
     paster_plugins=['PasteScript', 'Pylons'],
     entry_points="""
