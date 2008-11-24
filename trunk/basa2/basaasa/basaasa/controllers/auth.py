@@ -8,6 +8,8 @@ from basaasa.lib.base import BaseController, render
 from authkit.permissions import ValidAuthKitUser
 from authkit.authorize.pylons_adaptors import authorize
 
+from pylons.i18n.translation import _, set_lang
+
 log = logging.getLogger(__name__)
 
 class AuthController(BaseController):
@@ -19,7 +21,7 @@ class AuthController(BaseController):
         return 'Hello World'
     
     def tmpl(self):
-        session['flash'] = 'this is a flash message'
+        session['flash'] = _(u"flash")
         session.save()
         return render("/derived/auth/index.html")
     
