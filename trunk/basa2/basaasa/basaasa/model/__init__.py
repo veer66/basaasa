@@ -77,8 +77,8 @@ class Group(Entity):
         Entity.__init__(self)
         self.name = name
         
-    def __repr__(self):
-        return "Group(%(name)s)" % self.__dict__
+        def __repr__(self):
+            return "Group(%(name)s)" % self.__dict__
         
 class Role(Entity):
     uid = Field(Integer, primary_key=True)
@@ -111,5 +111,19 @@ class Translation(Entity):
     latest_editor = ManyToOne("User")
     document = ManyToOne("Document")
     acts_as_versioned()
+    
+class Dictionary(Entity):
+    name = Field(Unicode(255), unique=True, nullable=False)
+    entries = OneToMany("DictEntry")
+    
+class DictEntry(Entity):
+    data = Field(Unicode)
+    dictionary = ManyToOne("Dictionary")
+    keys = OneToMany("DictKey")
+    
+class DictKey(Entity):
+    keyword = Field(Unicode(255))
+    type = Field(String)
+    entry = ManyToOne("DictEntry")
     
 elixir.setup_all()
