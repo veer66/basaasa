@@ -10,7 +10,7 @@ from authkit.authorize.pylons_adaptors import authorize
 
 from pylons.i18n.translation import _, set_lang
 
-from pylons.decorators import rest
+from pylons.decorators import rest, jsonify
 
 from pylons.controllers.util import abort, redirect_to 
 
@@ -53,6 +53,8 @@ class DictController(BaseController):
         pass
     
     def create_dict(self, dict=None):
+        if dict == None:
+            abort(400)
         if model.Dictionary.query.filter_by(name = dict).count() > 0:
             abort(422)
         else:
@@ -61,10 +63,35 @@ class DictController(BaseController):
             model.meta.Session.flush()
     
     def update_dict(self, dict=None):
-        return "update dict" + ":" + str(dict) 
-    
+        if dict == None:
+            abort(400)
+        name = request.params["name"]
+        dicts = model.Dictionary.query.filter_by(name = dict).all()            
+        if len(dicts) != 1:
+            abort(422)
+        else:            
+            dicts[0].name = name
+            model.meta.Session.flush()
+            
+    @jsonify
     def retrieve_dict(self, dict=None):
-        return "retrieve dict" + ":" + str(dict) 
-    
+        if dict != None:
+            dicts = model.Dictionary.query.filter_by(name = dict).all()
+            if len(dicts) != 1:
+                abort(442)
+            else:
+                dict0 = dicts[0]
+                return {"id": dict0.id, "name": dict0.name}
+        else:
+            dicts = model.Dictionary.query.all()
+            return [{"id": d.id, "name":d.name} for d in dicts]
+        
     def delete_dict(self, dict=None):
-        return "delete dict" + ":" + str(dict) 
+        if dict == None:
+            abort(400)
+        dicts = model.Dictionary.query.filter_by(name = dict).all()
+        if len(dicts) != 1:
+            abort(442)
+        else:
+            model.meta.Session.delete(dicts[0])
+            model.meta.Session.flush()
