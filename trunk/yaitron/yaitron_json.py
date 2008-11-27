@@ -38,8 +38,6 @@ def main():
     reload(sys)  
     sys.setdefaultencoding('utf-8')
     
-    
-      
     tei_gen = TeiGen()
     events = pulldom.parse("yaitron.xml")
     for (event, node) in events:
