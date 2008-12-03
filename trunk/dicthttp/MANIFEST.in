@@ -1,0 +1,3 @@
+include dicthttp/config/deployment.ini_tmpl
+recursive-include dicthttp/public *
+recursive-include dicthttp/templates *
