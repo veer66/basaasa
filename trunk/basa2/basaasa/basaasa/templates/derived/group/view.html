@@ -1,0 +1,12 @@
+<%inherit file="/base/index.html"/>
+<%def name="header()"><div id="header">${_(u"Group")}: ${_(u"view")} ${c.group.uid}</div></%def>
+<%def name="menu()">
+<div id="menu">
+${h.link_to(_(u"Edit"), h.url_for(action="edit", id=c.group.uid))} |
+${h.link_to(_(u"List groups"), h.url_for(action="list", id=None))}
+</div>
+</%def>
+<p>
+${c.group.uid}:
+${c.group.name}
+</p>

@@ -1,0 +1,14 @@
+<%inherit file="/base/index.html"/>
+<%def name="header()"><div id="header">${_(u"Document")}: ${_(u"view")} ${c.document.id}</div></%def>
+<%def name="menu()">
+<div id="menu">
+${h.link_to(_(u"Edit"), h.url_for(action="edit", id=c.document.id))} |
+${h.link_to(_(u"Delete"), h.url_for(action="delete", id=c.document.id))} |
+${h.link_to(_(u"List documents"), h.url_for(action="list", id=None))}
+</div>
+</%def>
+<p>
+${c.document.id}
+${c.document.title}
+${c.document.body}
+</p>

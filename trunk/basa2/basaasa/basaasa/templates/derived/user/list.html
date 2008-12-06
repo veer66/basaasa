@@ -1,8 +1,23 @@
 <%inherit file="/base/index.html"/>
+<%def name="header()"><div id="header">${_(u"Role")}: ${_(u"list")}</div></%def>
+<%def name="menu()">
+<div id="menu">
+${h.link_to(_(u"New user"), h.url_for(action="new", id=None))}
+</div>
+</%def>
 <p>
 <ul>
-% for user in c.paginator:  
-	<li>Username: ${user.username}, </li>	  
-% endfor  
-</ul>
+<table class="data">
+	<tr>
+		<td>${_("id")}</td>
+		<td>${_("name")}</td>
+	</tr>
+	% for user in c.paginator:
+	<tr>  
+		<td>${user.uid}</td> 
+		<td>${h.link_to(user.username, h.url_for(action="view", id=user.uid))}</td>
+	</tr>		 
+	% endfor  
+<table>
+<p>${ c.paginator.pager('~2~') }</p>
 </p>
