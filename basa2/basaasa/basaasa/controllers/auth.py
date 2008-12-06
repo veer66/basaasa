@@ -31,5 +31,3 @@ class AuthController(BaseController):
     
     def signout(self):
         return 'signout'
-    
-    

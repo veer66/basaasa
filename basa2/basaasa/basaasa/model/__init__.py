@@ -60,7 +60,7 @@ class User(Entity):
         group_uid=None,
     ):
         Entity.__init__(self)
-        self.uid         = uid
+        self.uid        = uid
         self.username   = username
         self.password   = password
         self.group_uid  = group_uid
@@ -96,7 +96,6 @@ class Document(Entity):
     body = Field(Unicode, nullable=False)
     title = Field(Unicode(255))
     checking_needed = Field(Boolean, default=False, nullable=False)
-    deleted = Field(Boolean, default=False, nullable=False)
     latest_editor = ManyToOne("User")
     acts_as_versioned()
 
