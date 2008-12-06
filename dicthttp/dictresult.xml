@@ -1,0 +1,9 @@
+<dictsearchresult>
+#for $entry in $result
+<entry>
+<word>$entry.word</word>
+<def>$entry.def</def>
+<database>$entry.database</database>
+</entry>
+#end for
+</dictsearchresult>
