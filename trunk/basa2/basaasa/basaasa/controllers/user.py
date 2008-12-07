@@ -25,7 +25,7 @@ class NewUserForm(formencode.Schema):
     filter_extra_fields = True
     username = formencode.validators.String(not_empty=True)
     password = formencode.validators.String(not_empty=True)
-    group_uid = formencode.validators.Int()
+    group_uid = formencode.validators.Int(not_empty=False)
 
 class UserController(BaseController):
 

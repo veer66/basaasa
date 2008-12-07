@@ -18,7 +18,8 @@
 </html>
 <%def name="menu()"></%def>
 <%def name="maintab()">
-<div id="maintab">${h.link_to(label=_(u"Home"), url=h.url_for(controller="doc", action="list"))}</div>
+<div id="maintab">${h.link_to(label=_(u"Home"), url=h.url_for(controller="doc", action="list"))} | 
+${h.link_to(label=_(u"Logout"), url=h.url_for(controller="auth", action="signout", id=None))}</div>
 </%def>
 <%def name="title()">${_(u"BasaAsa")}</%def>
 <%def name="head()">${h.stylesheet_link(h.url_for('/css/main.css'))}</%def>
