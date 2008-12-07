@@ -17,8 +17,6 @@ from formencode import htmlfill
 
 from basaasa import model
 
-
-
 log = logging.getLogger(__name__)
 
 class NewDocForm(formencode.Schema):
@@ -40,25 +38,17 @@ def get_user_model():
     user = model.User.query.filter_by(username=username).one()
     return user
 
-
 class DocController(BaseController):
-        
-    @authorize(ValidAuthKitUser())
-    def index(self):
-        return 'index'
-
-
-        # Return a rendered template
-        #   return render('/template.mako')
-        # or, Return a response
-#        return "xxx"
-        
+    @authorize(ValidAuthKitUser())    
+    def __before__(self):
+        pass
+    
     def list(self):
         page = request.params.get('page', 1)
-        docs = model.Document.query.all()
+        docs = model.Document.list()
         c.paginator = paginate.Page(docs, page = page)  
         return render("/derived/doc/list.html")
-#    
+
     def new(self):
         return render("/derived/doc/new.html")
 
@@ -69,8 +59,7 @@ class DocController(BaseController):
         document.title = self.form_result.get('title')
         document.body = self.form_result.get('body')
         document.latest_editor = get_user_model()
-        model.meta.Session.flush()
-        
+        model.meta.Session.flush()        
         redirect_to(action="list")
         
     def view(self, id=None):
@@ -78,40 +67,38 @@ class DocController(BaseController):
             abort(404)
         c.document = model.Document.get(id)        
         return render("/derived/doc/view.html")
-#    
-#    def edit(self, id=None):
-#        if id is None:
-#            abort(404)
-#        user = model.User.get(id)
-#        if user is None:
-#            abort(404)
-#        values = {"username": user.username}
-#        c.groups = model.Group.query.all()
-#        return htmlfill.render(render("/derived/user/edit.html"), values)
-#    
-#    @restrict('POST')
-#    @validate(schema=NewUserForm(), form='edit')
-#    def save(self, id=None):
-#        if id is None:
-#            abort(404)
-#        user = model.User.get(id)
-#        if user is None:
-#            abort(404)
-#        for k, v in self.form_result.items():
-#            if getattr(user, k) != v:
-#                setattr(user, k, v)
-#        model.meta.Session.flush()
-#        redirect_to(action="view", id=id)
-#        
-#    def delete(self, id=None):
-#        if id is None:
-#            abort(404)
-#        user = model.User.get(id)
-#        if user is None:
-#            abort(404)
-#        c.user = user
-#        model.meta.Session.delete(user)
-#        model.meta.Session.flush()
-#        return render('/derived/user/deleted.html')
-#    
-#    
+    
+    def edit(self, id=None):
+        if id is None:
+            abort(404)
+        document = model.Document.get(id)
+        if document is None:
+            abort(404)
+        values = {"title": document.title, "body": document.body}
+        return htmlfill.render(render("/derived/doc/edit.html"), values)
+    
+    @restrict('POST')
+    @validate(schema=NewDocForm(), form='edit')
+    def save(self, id=None):
+        if id is None:
+            abort(404)
+        document = model.Document.get(id)
+        if document is None:
+            abort(404)
+        for k, v in self.form_result.items():
+            if getattr(document, k) != v:
+                setattr(document, k, v)
+        document.latest_editor = get_user_model()
+        model.meta.Session.flush()
+        redirect_to(action="view", id=id)
+        
+    def delete(self, id=None):
+        if id is None:
+            abort(404)
+        document = model.Document.get(id)
+        if document is None:
+            abort(404)
+        c.document = document
+        document.lazy_delete()
+        model.meta.Session.flush()
+        return render('/derived/doc/deleted.html')

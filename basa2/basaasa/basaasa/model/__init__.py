@@ -97,7 +97,15 @@ class Document(Entity):
     title = Field(Unicode(255))
     checking_needed = Field(Boolean, default=False, nullable=False)
     latest_editor = ManyToOne("User")
+    lazy_deleted = Field(Boolean, default=False, nullable=False)
     acts_as_versioned()
+    
+    def lazy_delete(self):
+        self.lazy_deleted = True
+        
+    @staticmethod
+    def list():
+        return Document.query.filter_by(lazy_deleted=False).all()
 
 class Comment(Entity):
     body = Field(Unicode)
