@@ -3,6 +3,7 @@
 <%def name="menu()">
 <div id="menu">
 ${h.link_to(_(u"Edit"), h.url_for(action="edit", id=c.document.id))} |
+${h.link_to(_(u"History"), h.url_for(action="history", id=c.document.id))} |
 ${h.link_to(_(u"Delete"), h.url_for(action="delete", id=c.document.id))} |
 ${h.link_to(_(u"List documents"), h.url_for(action="list", id=None))}
 </div>

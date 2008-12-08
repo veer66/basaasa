@@ -1,0 +1,28 @@
+<%inherit file="/base/index.html"/>
+<%def name="header()"><div id="header">${_(u"Document")}: ${_(u"history")}</div></%def>
+<%def name="menu()">
+<div id="menu">
+</div>
+</%def>
+<p>
+<ul>
+<table class="data">
+	<tr>
+		<td>${_("id")}</td>
+		<td>${_("title")}</td>
+		<td>${_("version")}</td>
+		<td>${_("timestamp")}</td>
+	</tr>
+	% for version in c.paginator:
+	<tr>  
+		<td>${version.id}</td> 
+		<td>${h.link_to(version.title, h.url_for(action="history_view", 
+					    doc_id=version.id, version=version.version,
+					    id=None))}</td>
+		<td>${version.version}</td>
+		<td>${version.timestamp}</td>
+	</tr>		 
+	% endfor  
+<table>
+<p>${ c.paginator.pager('~2~') }</p>
+</p>

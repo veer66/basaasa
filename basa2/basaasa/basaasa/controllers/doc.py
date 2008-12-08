@@ -102,3 +102,28 @@ class DocController(BaseController):
         document.lazy_delete()
         model.meta.Session.flush()
         return render('/derived/doc/deleted.html')
+    
+    def history(self, id=None):
+        if id is None:
+            abort(404)
+        document = model.Document.get(id)
+        if document is None:
+            abort(404)
+        versions = document.versions[:-1]
+        versions.reverse()
+        page = request.params.get('page', 1)
+        docs = model.Document.list()
+        c.paginator = paginate.Page(versions, page = page)  
+        return render('/derived/doc/history.html')
+
+    def history_view(self, doc_id=None, version=None):
+        if doc_id is None or version is None:
+            abort(404)
+        document = model.Document.get(doc_id)
+        if document is None:
+            abort(404)
+        c.version = document.get_version_with_editor(version)
+        return render('/derived/doc/history_view.html')
+#        return str(version.version)
+        
+#        return ":".join([str(v.version) + ":" + str(v.timestamp) for v in versions])
