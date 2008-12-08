@@ -1,0 +1,13 @@
+<%inherit file="/base/index.html"/>
+<%def name="header()"><div id="header">${_(u"Document")}: ${_(u"view")} ${c.version.id} ${_(u"version")} ${c.version.id}</div></%def>
+<%def name="menu()">
+<div id="menu">
+${h.link_to(_(u"Document history"), h.url_for(action="history", id=c.version.id))}
+</div>
+</%def>
+<p>
+${c.version.id}
+${c.version.title}
+${c.version.body}
+${c.version.latest_editor.username if c.version.latest_editor is not None else ""}
+</p>

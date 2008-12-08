@@ -42,7 +42,7 @@ def init_model(engine):
 #    pass
 
 from elixir import *
-from elixir.ext.versioned import acts_as_versioned
+from ext import acts_as_versioned
 
 class User(Entity):
     uid = Field(Integer, primary_key=True)
@@ -102,6 +102,12 @@ class Document(Entity):
     
     def lazy_delete(self):
         self.lazy_deleted = True
+        
+    def get_version_with_editor(self, version_no):
+        version = self.get_version(version_no)
+        user = User.get(version.latest_editor_uid)
+        version.latest_editor = user
+        return version
         
     @staticmethod
     def list():
