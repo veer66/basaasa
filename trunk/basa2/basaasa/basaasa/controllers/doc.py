@@ -65,7 +65,8 @@ class DocController(BaseController):
     def view(self, id=None):
         if id is None:
             abort(404)
-        c.document = model.Document.get(id)        
+        c.document = model.Document.get(id) 
+        c.translation = c.document.latest_translation()       
         return render("/derived/doc/view.html")
     
     def edit(self, id=None):
@@ -124,6 +125,3 @@ class DocController(BaseController):
             abort(404)
         c.version = document.get_version_with_editor(version)
         return render('/derived/doc/history_view.html')
-#        return str(version.version)
-        
-#        return ":".join([str(v.version) + ":" + str(v.timestamp) for v in versions])

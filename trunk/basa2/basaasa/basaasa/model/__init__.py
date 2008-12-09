@@ -3,7 +3,8 @@ import sqlalchemy as sa
 from sqlalchemy import orm
 
 from basaasa.model import meta
-import elixir  
+import elixir
+from json_type import JsonType  
 
 sm = orm.sessionmaker(autoflush=True, autocommit=True)  
 elixir.session = orm.scoped_session(sm) 
@@ -98,6 +99,8 @@ class Document(Entity):
     checking_needed = Field(Boolean, default=False, nullable=False)
     latest_editor = ManyToOne("User")
     lazy_deleted = Field(Boolean, default=False, nullable=False)
+    translations = OneToMany("Translation", order_by="-id")
+    lang = Field(Unicode(255))
     acts_as_versioned()
     
     def lazy_delete(self):
@@ -112,15 +115,29 @@ class Document(Entity):
     @staticmethod
     def list():
         return Document.query.filter_by(lazy_deleted=False).all()
-
+    
+    def latest_translation(self):
+        if self.is_exist_translation():
+            return self.translations[0]
+        else:
+            return None
+            
+    def is_exist_translation(self):
+        return (len(self.translations) != 0)
+    
+    def textunits(self):
+        return self.body.split("|")
+    
 class Comment(Entity):
     body = Field(Unicode)
     author = ManyToOne("User")
     document = ManyToOne("Document")
     
-class Translation(Entity):
-    body = Field(Unicode)
+class Translation(Entity):    
     title = Field(Unicode(255))
+    body = Field(JsonType)
+    lang = Field(Unicode(255))
+    source_version = Field(Integer)
     latest_editor = ManyToOne("User")
     document = ManyToOne("Document")
     acts_as_versioned()

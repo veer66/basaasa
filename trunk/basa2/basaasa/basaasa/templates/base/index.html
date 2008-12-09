@@ -6,6 +6,7 @@
 <head>
     <title>${self.title()}</title>
     ${self.head()}
+    ${self.script()}
 </head>
 <body>
 	${self.maintab()}
@@ -16,6 +17,7 @@
     ${self.menu()}
 </body>
 </html>
+<%def name="script()"></%def>
 <%def name="menu()"></%def>
 <%def name="maintab()">
 <div id="maintab">${h.link_to(label=_(u"Home"), url=h.url_for(controller="doc", action="list"))} | 

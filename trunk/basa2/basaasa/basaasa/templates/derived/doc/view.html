@@ -2,14 +2,27 @@
 <%def name="header()"><div id="header">${_(u"Document")}: ${_(u"view")} ${c.document.id}</div></%def>
 <%def name="menu()">
 <div id="menu">
-${h.link_to(_(u"Edit"), h.url_for(action="edit", id=c.document.id))} |
-${h.link_to(_(u"History"), h.url_for(action="history", id=c.document.id))} |
+${h.link_to(_(u"Edit source"), h.url_for(action="edit", id=c.document.id))} |
+${h.link_to(_(u"Source history"), h.url_for(action="history", id=c.document.id))} |
+${h.link_to(_(u"Translation history"), h.url_for(action="history", id=c.document.id))} |
 ${h.link_to(_(u"Delete"), h.url_for(action="delete", id=c.document.id))} |
-${h.link_to(_(u"List documents"), h.url_for(action="list", id=None))}
+${h.link_to(_(u"List documents"), h.url_for(action="list", id=None))} |
+${h.link_to(_(u"Edit translation"), h.url_for(controller="trans", action="edit", doc_id=c.document.id, id=None))}
 </div>
 </%def>
 <p>
-${c.document.id}
-${c.document.title}
-${c.document.body}
+<div>${c.document.id}</div>
+<div>${c.document.title}</div>
+<div>${c.document.body}</div>
+</p>
+
+<p>
+${_("Latest translation")}:
+
+% if c.translation is None:
+	${_("Does not exist")}
+% else:
+	<div>${c.translation.title}</div>
+	<div>${c.translation.body}<div>	
+% endif
 </p>
