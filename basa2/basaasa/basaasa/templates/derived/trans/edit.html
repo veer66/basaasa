@@ -1,0 +1,9 @@
+<%inherit file="/base/index.html"/>
+<%namespace file="fields.html" name="fields" import="*"/>
+<%def name="header()"><div id="header">${_(u"Translation")}: ${_(u"new")}</div></%def>
+<p>
+${h.form_start(h.url_for(controller='trans', action='save',  doc_id=request.urlvars['doc_id']), method="post")}
+    ${fields.body()}
+    ${h.field(field=h.submit(value=_(u"Save Changes"), name='submit'))}
+${h.form_end()}
+</p>

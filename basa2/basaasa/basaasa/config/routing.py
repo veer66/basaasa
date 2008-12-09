@@ -21,6 +21,11 @@ def make_map():
     # CUSTOM ROUTES HERE
     map.connect('/doc/history/{doc_id}/view/{version}', controller='doc', action='history_view')
     
+    map.connect('/trans/edit/{doc_id}', controller='trans', action='edit')
+    map.connect('/trans/new/{doc_id}', controller='trans', action='new')
+    map.connect('/trans/create/{doc_id}', controller='trans', action='create')
+    map.connect('/trans/save/{doc_id}', controller='trans', action='save')
+    
     map.connect('/{controller}/{action}')
     map.connect('/{controller}/{action}/{id}')
 

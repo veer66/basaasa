@@ -7,7 +7,7 @@ available to Controllers. This module is available to both as 'h'.
 # from webhelpers.html.tags import checkbox, password
 
 from routes import url_for
-from webhelpers.html.tags import stylesheet_link
+from webhelpers.html.tags import stylesheet_link, javascript_link
 from webhelpers import paginate
 from formbuild.helpers import field
 from formbuild import start_with_layout as form_start, end_with_layout as form_end
