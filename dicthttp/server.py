@@ -1,4 +1,3 @@
-from wsgiref.simple_server import make_server, demo_app
 from dicthttp import dicthttp_app
 from paste import reloader
 
