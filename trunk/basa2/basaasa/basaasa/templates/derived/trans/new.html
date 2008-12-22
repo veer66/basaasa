@@ -6,14 +6,6 @@ ${h.javascript_link("/js/jquery.js")}
 ${h.javascript_link("/js/translation.js")}
 </%def>
 <p>
-
-
-<div>
-<form><input type="hidden" name="tulen" value="${len(c.textunits)}"/></form>
-%for i, tu in enumerate(c.textunits):
-	<span class="textunit" id="tu${i}">${tu}</span>
-%endfor 
-</div>
 ${h.form_start(h.url_for(controller='trans', action='create', doc_id=request.urlvars['doc_id']), method="post")}
     ${fields.body()}
     ${h.field(field=h.submit(value=_(u"Create translation"), name='submit'))}
