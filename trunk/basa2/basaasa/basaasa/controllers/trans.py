@@ -34,9 +34,11 @@ def get_user_model():
 
 class NewTransForm(formencode.Schema):
     allow_extra_fields = True
-    filter_extra_fields = True
+    filter_extra_fields = False
     title = formencode.validators.String(not_empty=True)
     body = formencode.validators.String(not_empty=True)
+    source_body = formencode.validators.String(not_empty=False)
+    source_title = formencode.validators.String(not_empty=False)
 
 # This implementation is for bitext only 
 # TODO: multilingual
@@ -47,7 +49,7 @@ class TransController(BaseController):
         pass
 
     def index(self):
-        return "trans"
+        return render("/derived/trans/index.html")
     
     def edit(self, doc_id=None):
         if doc_id is None:  
@@ -61,7 +63,9 @@ class TransController(BaseController):
         else: 
             translation = document.latest_translation()    
             values = {"title": translation.title,  
-                      "body": translation.body}
+                      "body": translation.body,
+                      "source_body": document.body,
+                      "source_title": document.title}
             return htmlfill.render(render("/derived/trans/edit.html"), values)
 
     def new(self, doc_id=None):
@@ -70,8 +74,13 @@ class TransController(BaseController):
         document = model.Document.get(doc_id)
         if document is None:
             abort(404)
-        c.textunits = document.textunits()
-        return render("/derived/trans/new.html")
+#        c.textunits = document.textunits()
+        values = {"title": '',  
+                  "body": '',
+                  "source_body": document.body,
+                  "source_title": document.title}
+        return htmlfill.render(render("/derived/trans/new.html"), values)
+#        return render("/derived/trans/new.html")
     
     @restrict('POST')
     @validate(schema=NewTransForm(), form='new')
@@ -97,7 +106,8 @@ class TransController(BaseController):
         if document is None:
             abort(404)
         translation = document.latest_translation()
-        for k, v in self.form_result.items():
+        for k in ['title', 'body']:
+            v = self.form_result.get(k)
             if getattr(translation, k) != v:
                 setattr(translation, k, v)
         translation.latest_editor = get_user_model()
