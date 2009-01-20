@@ -1,9 +1,25 @@
 <%inherit file="/base/index.html"/>
 <%namespace file="fields.html" name="fields" import="*"/>
+<%def name="script()">
+${h.javascript_link(h.url_for("/js/jquery.js"))}
+${h.javascript_link(h.url_for("/js/jquery-fieldselection.js"))}
+${h.javascript_link(h.url_for("/js/basaasa.js"))}
+${h.javascript_link(h.url_for("/js/tubsub.js"))}
+</%def>
 <%def name="header()"><div id="header">${_(u"Translation")}: ${_(u"new")}</div></%def>
+<div>
+<form><input type="hidden" name="tulen" value="${len(c.textunits)}"/></form>
+${h.form_start("")}
+${h.form_end()}
+
+
+
+</div>
 <p>
 ${h.form_start(h.url_for(controller='trans', action='save',  doc_id=request.urlvars['doc_id']), method="post")}
     ${fields.body()}
     ${h.field(field=h.submit(value=_(u"Save Changes"), name='submit'))}
+    
+    
 ${h.form_end()}
 </p>

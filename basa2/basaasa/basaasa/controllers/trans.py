@@ -61,6 +61,7 @@ class TransController(BaseController):
         if not document.is_exist_translation():
             redirect_to(action="new", doc_id=doc_id)
         else: 
+            c.textunits = document.textunits()
             translation = document.latest_translation()    
             values = {"title": translation.title,  
                       "body": translation.body,
@@ -78,6 +79,7 @@ class TransController(BaseController):
         values = {"title": '',  
                   "body": '',
                   "source_body": document.body,
+                  "segment": document.segment,
                   "source_title": document.title}
         return htmlfill.render(render("/derived/trans/new.html"), values)
 #        return render("/derived/trans/new.html")
@@ -113,3 +115,5 @@ class TransController(BaseController):
         translation.latest_editor = get_user_model()
         model.meta.Session.flush()
         redirect_to(controller="doc", action="view", id=doc_id)
+        
+ 
