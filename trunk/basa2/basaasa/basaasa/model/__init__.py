@@ -95,6 +95,7 @@ class Role(Entity):
 
 class Document(Entity):
     body = Field(Unicode, nullable=False)
+    segment = Field(Unicode, nullable=True, default=None)
     title = Field(Unicode(255))
     checking_needed = Field(Boolean, default=False, nullable=False)
     latest_editor = ManyToOne("User")

@@ -60,7 +60,7 @@ class DocController(BaseController):
         document.body = self.form_result.get('body')
         document.latest_editor = get_user_model()
         model.meta.Session.flush()        
-        redirect_to(action="list")
+        redirect_to(controller="segment",action="edit",id=document.id)
         
     def view(self, id=None):
         if id is None:
@@ -124,4 +124,4 @@ class DocController(BaseController):
         if document is None:
             abort(404)
         c.version = document.get_version_with_editor(version)
-        return render('/derived/doc/history_view.html')
+        return render('/derived/doc/history_view.html')        

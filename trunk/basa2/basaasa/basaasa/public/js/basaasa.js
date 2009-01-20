@@ -1,12 +1,10 @@
-
 $(document).ready(function() {
-
-	$("#source_body").keydown(update).keyup(update).mousedown(update).mouseup(update).mousemove(update)
+	$("#segment").keydown(update).keyup(update).mousedown(update).mouseup(update).mousemove(update)
 	//$("#body").keydown(update).keyup(update).mousedown(update).mouseup(update).mousemove(update)
 	var old = "";
 	function update() {
 		
-		var t = $("#source_body").getSelection();
+		var t = $("#segment").getSelection();
 		//var t = $("#body").getSelection();
 		var url = "http://127.0.0.1/dict/d:" + t.text;
 	
