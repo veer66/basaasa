@@ -12,7 +12,7 @@ ${h.javascript_link(h.url_for("/js/mt.js"))}
 
 </%def>
 <p>
-${h.form_start(h.url_for(controller='trans', action='create', doc_id=request.urlvars['doc_id']), method="post")}
+${h.form_start(h.url_for(controller='trans', action='create', id=request.urlvars['doc_id']), method="post")}
     ${fields.body()}
     ${h.field(field=h.submit(value=_(u"Create translation"), name='submit'))}
 ${h.form_end()}
