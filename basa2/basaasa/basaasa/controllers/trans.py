@@ -37,8 +37,8 @@ class NewTransForm(formencode.Schema):
     filter_extra_fields = False
     title = formencode.validators.String(not_empty=True)
     body = formencode.validators.String(not_empty=True)
-    source_body = formencode.validators.String(not_empty=False)
-    source_title = formencode.validators.String(not_empty=False)
+#    source_body = formencode.validators.String(not_empty=False)
+#    source_title = formencode.validators.String(not_empty=False)
 
 # This implementation is for bitext only 
 # TODO: multilingual
