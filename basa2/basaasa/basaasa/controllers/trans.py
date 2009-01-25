@@ -106,7 +106,7 @@ class TransController(BaseController):
             
         for i, line2 in enumerate(body.split("\n")):
             list2 = line2.split("\n")
-            source_segment += list[1]+"\n"
+            source_segment += list2[1]+"\n"
             
         document.segment = source_segment
             
