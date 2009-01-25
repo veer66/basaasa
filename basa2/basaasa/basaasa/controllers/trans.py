@@ -92,9 +92,27 @@ class TransController(BaseController):
         document = model.Document.get(doc_id)
         if document is None:
             abort(404)
+        body = self.form_result.get('body')
+        
+        target_segment = ""
+        list = []
+                
+        source_segment = ""
+        list2 = []
+        
+        for i, line in enumerate(body.split("\n\n")):
+            list = line.split("\n")
+            target_segment += list[0]+"\n"
+            
+        for i, line2 in enumerate(body.split("\n")):
+            list2 = line2.split("\n")
+            source_segment += list[1]+"\n"
+            
+        document.segment = source_segment
+            
         translation = model.Translation(document = document,
                                        title = self.form_result.get('title'),
-                                       body = self.form_result.get('body'),
+                                       body = target_segment,
                                        latest_editor = get_user_model())
         model.meta.Session.flush()
         redirect_to(controller="doc", action="view", id=doc_id)
