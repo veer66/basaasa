@@ -13,7 +13,7 @@ ${h.link_to(_(u"Edit translation"), h.url_for(controller="trans", action="edit",
 <p>
 <div>${c.document.id}</div>
 <div>${c.document.title}</div>
-<div>${c.document.body}</div>
+<div><pre>${c.document.segment}</pre></div>
 </p>
 
 <p>
@@ -23,6 +23,6 @@ ${_("Latest translation")}:
 	${_("Does not exist")}
 % else:
 	<div>${c.translation.title}</div>
-	<div>${c.translation.body}<div>	
+	<div><pre>${c.translation.body}</pre><div>	
 % endif
 </p>
