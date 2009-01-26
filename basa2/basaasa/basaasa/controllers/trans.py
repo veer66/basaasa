@@ -104,7 +104,7 @@ class TransController(BaseController):
             list = line.split("\n")
             target_segment += list[0]+"\n"
             
-        for i, line2 in enumerate(body.split("\n")):
+        for i, line2 in enumerate(body.split("\n\n")):
             list2 = line2.split("\n")
             source_segment += list2[1]+"\n"
             
