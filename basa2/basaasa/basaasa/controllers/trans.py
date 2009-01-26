@@ -100,13 +100,16 @@ class TransController(BaseController):
         source_segment = ""
         list2 = []
         
-        for i, line in enumerate(body.split("\n\n")):
+        
+        body = body.replace("\r","")
+        
+        for i, line in enumerate(body.split("\n\n")):            
             list = line.split("\n")
-            target_segment += list[0]+"\n"
-            
+            target_segment += list[1] + '\n'
+
         for i, line2 in enumerate(body.split("\n\n")):
             list2 = line2.split("\n")
-            source_segment += list2[1]+"\n"
+            source_segment += (list2[0] + "\n")
             
         document.segment = source_segment
             
