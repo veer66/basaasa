@@ -64,4 +64,7 @@ def make_app(global_conf, full_stack=True, **app_conf):
     # server is handling this static content, remove the following 2 lines)
     static_app = StaticURLParser(config['pylons.paths']['static_files'])
     app = Cascade([static_app, app])
+    if config.get('basaasa.proxy_prefix'):
+        from paste.deploy.config import PrefixMiddleware
+        app = PrefixMiddleware(app, prefix=config['basaasa.proxy_prefix'])
     return app
