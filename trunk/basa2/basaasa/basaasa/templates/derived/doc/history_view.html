@@ -9,5 +9,13 @@ ${h.link_to(_(u"Document history"), h.url_for(action="history", id=c.version.id)
 ${c.version.id}
 ${c.version.title}
 ${c.version.body}
+${c.version.segment}
+...
+Translation:
+<ul>
+% for translation in c.translations:
+	<li><pre>${translation.body}</pre> - ${translation.version}</li>
+% endfor
+</ul> 
 ${c.version.latest_editor.username if c.version.latest_editor is not None else ""}
 </p>

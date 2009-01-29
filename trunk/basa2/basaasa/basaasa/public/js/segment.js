@@ -8,7 +8,7 @@ $(document).ready(function() {
 		var callback = function(d) {
 			all = "";
             for(i = 0; i < d.length; i++) {
-                //alert(d);
+    
                 all = all+d[i]+"\n"+"\n";
             	//$("#segment").val(d[i].database);
               
@@ -21,3 +21,4 @@ $(document).ready(function() {
 
 	
 }); 
+

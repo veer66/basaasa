@@ -2,9 +2,9 @@
 <%namespace file="fields.html" name="fields" import="*"/>
 <%def name="header()"><div id="header">${_(u"Document")}: ${_(u"new")}</div></%def>
 <p>
-${h.form_start(h.url_for(controller='doc', action='save',  id=request.urlvars['id']), method="post")}
+${h.form_start(h.url_for(controller='doc', action='create'), method="post")}
     ${fields.body()}
-    ${h.field(field=h.submit(value=_(u"Save Changes"), name='submit'))}
+    ${h.field(field=h.submit(value=_(u"Saaa"), name='submit'))}
 ${h.form_end()}
 </p>
 
