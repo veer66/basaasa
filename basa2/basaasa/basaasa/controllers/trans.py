@@ -62,10 +62,30 @@ class TransController(BaseController):
             redirect_to(action="new", doc_id=doc_id)
         else: 
             c.textunits = document.textunits()
-            translation = document.latest_translation()    
+            translation = document.latest_translation() 
+       
+        list = ""
+        list1 = []
+        list2 = []
+        lista = ""
+        listb = ""
+
+        list1 = document.segment.split("\n")
+        list2 = translation.body.split("\n")
+
+        for i in range(len(list1)):
+
+            list += list1[i]+"\n"+list2[i]+"\n"+"\n"
+            print "Length of the string = ",len(list1),len(list2)
+            print list,"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+
+        for i in range(1,100):
+            print "Length of the string = ",i
+            
             values = {"title": translation.title,  
-                      "body": translation.body,
-                      "source_body": document.body,
+                      "body": list,
+                      "source_body": document.segment,
+                      "segment": document.segment,
                       "source_title": document.title}
             return htmlfill.render(render("/derived/trans/edit.html"), values)
 
@@ -83,7 +103,7 @@ class TransController(BaseController):
                   "source_title": document.title}
         return htmlfill.render(render("/derived/trans/new.html"), values)
 #        return render("/derived/trans/new.html")
-    
+
     @restrict('POST')
     @validate(schema=NewTransForm(), form='new')
     def create(self, doc_id):
@@ -100,7 +120,7 @@ class TransController(BaseController):
         source_segment = ""
         list2 = []
         
-        
+        body = self.form_result.get('body')
         body = body.replace("\r","")
         
         for i, line in enumerate(body.split("\n\n")):            
@@ -129,12 +149,46 @@ class TransController(BaseController):
         if document is None:
             abort(404)
         translation = document.latest_translation()
-        for k in ['title', 'body']:
-            v = self.form_result.get(k)
-            if getattr(translation, k) != v:
-                setattr(translation, k, v)
+#        print type(translation.body),"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"    
+#        list = []
+        source_segment = ""
+        target_segment = ""
+        body = self.form_result.get('body')
+        body = body.replace("\r","")
+        lines = body.split("\n\n")
+        for i in range(len(lines)):
+            list = lines[i].split("\n")
+            if len(list) == 2:
+                source_segment += list[0]+"\n"
+                target_segment += list[1]+"\n"
+        print source_segment,"zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz"
+        document.segment = source_segment
+        translation.body = target_segment
         translation.latest_editor = get_user_model()
         model.meta.Session.flush()
         redirect_to(controller="doc", action="view", id=doc_id)
+
+#        for i, line in enumerate(body.split("\n")):            
+#            list = line.split("\n")
+#            source_segment += list[i] + "\n"
+#            print source_segment,list[i]
+
+#        document.latest_translation = source_segment
+#        translation = str(document.latest_translation())
+#        print translation,"qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq"
+#       
+#        list = ""
+#        list1 = []
+#        
+#        for i, line in enumerate(translation.body.split("\n")):            
+#            list1 = line.split("\n")
+#            translation += list1[i] + '\n'
+            
+#        for k in ['title', 'body']:
+#            v = self.form_result.get(k)
+#            if getattr(translation, k) != v:
+#                setattr(translation, k, v)
+                
+#        translation.body = source_segment   
         
  

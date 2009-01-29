@@ -11,7 +11,7 @@ ${h.javascript_link(h.url_for("/js/segment.js"))}
 <p>
 ${h.form_start(h.url_for(controller='segment', action='save',  id=request.urlvars['id']), method="post")}
     ${fields.body()}
-    ${h.field(field=h.submit(value=_(u"Save Changes"), name='submit'))}
+    ${h.field(field=h.submit(value=_("Save change"), name='submit'))}
 ${h.form_end()}
 </p>
 

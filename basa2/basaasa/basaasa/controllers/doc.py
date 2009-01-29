@@ -123,5 +123,6 @@ class DocController(BaseController):
         document = model.Document.get(doc_id)
         if document is None:
             abort(404)
+        c.translations = document.translations[0].versions  
         c.version = document.get_version_with_editor(version)
         return render('/derived/doc/history_view.html')        
