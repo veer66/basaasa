@@ -9,7 +9,7 @@ $(document).ready(function() {
 			all = "";
             for(i = 0; i < d.length; i++) {
     
-                all = all+d[i]+"\n"+"\n";
+                all = all+d[i]+"\n";
             	//$("#segment").val(d[i].database);
               
             }
