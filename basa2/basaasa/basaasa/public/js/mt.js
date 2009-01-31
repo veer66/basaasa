@@ -4,6 +4,8 @@ $(document).ready(function() {
 		var myArray=t.split("\n\n");	
 		var url = "http://127.0.0.1/mt";
 		var all = [];
+		var test ="";
+		
 		for(i = 0; i < myArray.length; i++) {
 			var params = {};
 			params['source'] = myArray[i];
@@ -21,10 +23,13 @@ $(document).ready(function() {
 				 "success": function(data) {
 				
 			$("#body").val($("#body").val()+ myArray[i]+"\n"+data+"\n\n");
-							}
-			};			
-			$.ajax(s);	
-		}
+							}			
+			};	
+			
+			test = $.ajax(s);
+			
+					}
+		alert(test);
 }); 
 
 
