@@ -7,13 +7,16 @@ $(document).ready(function() {
 		params['lang'] = 'lang';
 		var callback = function(d) {
 			all = "";
-            for(i = 0; i < d.length; i++) {
+            for(i = 0; i < d.length-1; i++) {
     
-                all = all+d[i]+"\n";
+                all = all+d[i]+"\n\n";
+                
             	//$("#segment").val(d[i].database);
               
             }
-        
+           all = all.substring(0,all.length-2);
+            //alert(all.substring(0,all.length-1));
+                       
        $("#segment").val(all);
 	}
 
