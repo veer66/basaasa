@@ -11,5 +11,5 @@ from webhelpers.html.tags import stylesheet_link, javascript_link
 from webhelpers import paginate
 from formbuild.helpers import field
 from formbuild import start_with_layout as form_start, end_with_layout as form_end
-from webhelpers.html.tags import text, textarea, select, submit, password
+from webhelpers.html.tags import text, textarea, select, submit, password, hidden
 from webhelpers.html.tags import link_to
