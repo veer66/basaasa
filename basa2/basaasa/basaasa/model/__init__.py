@@ -93,6 +93,8 @@ class Role(Entity):
     def __repr__(self):
         return "Role(%(name)s)" % self.__dict__
 
+from basaasa.users import edit_distance
+
 class Document(Entity):
     body = Field(Unicode, nullable=False)
     segment = Field(Unicode, nullable=True, default=None)
@@ -128,6 +130,23 @@ class Document(Entity):
     
     def textunits(self):
         return self.body.split("|")
+
+    def get_similar_fragments(self, fragment):
+        # this method will be language specific
+        # search all in the corpus?
+        translations = self.translations
+        if len(translations) < 1:
+            return []
+        translation = translations[0].body.split("\n")
+        fragment = map(lambda s: s.lower(), fragment.split(" "))
+        ans = []
+        for i, s in enumerate(self.segment.split("\n")):
+            s = map(lambda s: s.lower(), s.split(" "))
+            d = edit_distance(fragment, s)
+            diff = max(float(d) / float(len(fragment)), float(d) / float(len(s)))            
+            if diff < 0.3:
+                ans.append((" ".join(s), translation[i], 1.0 - diff))
+        return ans    
     
 class Comment(Entity):
     body = Field(Unicode)

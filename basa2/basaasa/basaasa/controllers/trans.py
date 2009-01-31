@@ -50,7 +50,7 @@ class TransController(BaseController):
 
     def index(self):
         return render("/derived/trans/index.html")
-    
+        
     def edit(self, doc_id=None):
         if doc_id is None:  
             abort(404)

@@ -16,6 +16,7 @@ import formencode
 from formencode import htmlfill
 
 from basaasa import model
+import simplejson
 
 log = logging.getLogger(__name__)
 
@@ -52,6 +53,16 @@ class DocController(BaseController):
     def new(self):
         return render("/derived/doc/new.html")
 
+    def tm(self, id):
+        fragment = request.params.get('fragment', 1)
+        if id is None:
+            abort(404)
+        document = model.Document.get(id)
+        if document is None:
+            abort(404)
+        ans = document.get_similar_fragments(fragment)
+        return simplejson.dumps(ans)
+    
     @restrict('POST')
     @validate(schema=NewDocForm(), form='new')    
     def create(self):
