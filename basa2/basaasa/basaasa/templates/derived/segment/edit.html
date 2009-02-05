@@ -2,6 +2,9 @@
 <%namespace file="fields.html" name="fields" import="*"/>
 <%def name="header()"><div id="header">${_(u"Segment")}: ${_(u"edit")}</div></%def>
 <%def name="script()">
+<script type="text/javascript">
+var segment_service_url = "${h.url_for(controller="service", action="segment", id=None)}";
+</script>
 
 ${h.javascript_link(h.url_for("/js/jquery.js"))}
 ${h.javascript_link(h.url_for("/js/jquery-fieldselection.js"))}
