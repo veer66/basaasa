@@ -96,8 +96,8 @@ class Role(Entity):
 from basaasa.users import edit_distance
 
 class Document(Entity):
-    body = Field(Unicode, nullable=False)
-    segment = Field(Unicode, nullable=True, default=None)
+    body = Field(Unicode(10000000), nullable=False)
+    segment = Field(Unicode(10000000), nullable=True, default="")
     title = Field(Unicode(255))
     checking_needed = Field(Boolean, default=False, nullable=False)
     latest_editor = ManyToOne("User")
@@ -149,7 +149,7 @@ class Document(Entity):
         return ans    
     
 class Comment(Entity):
-    body = Field(Unicode)
+    body = Field(Unicode(1000000))
     author = ManyToOne("User")
     document = ManyToOne("Document")
     
@@ -167,13 +167,13 @@ class Dictionary(Entity):
     entries = OneToMany("DictEntry")
     
 class DictEntry(Entity):
-    data = Field(Unicode)
+    data = Field(Unicode(1000000))
     dictionary = ManyToOne("Dictionary")
     keys = OneToMany("DictKey")
     
 class DictKey(Entity):
     keyword = Field(Unicode(255))
-    type = Field(String)
+    type = Field(String(100))
     entry = ManyToOne("DictEntry")
     
 elixir.setup_all()
