@@ -41,7 +41,7 @@ class ServiceController(BaseController):
         return urllib.urlopen(url, urllib.urlencode(dict(input=input))).read()
 
     def translate(self):
-        url = "http://vivaldi.cpe.ku.ac.th:6122"
+        url = "http://vivaldi.cpe.ku.ac.th/mt"
         def trans(source):
             return urllib.urlopen(url, urllib.urlencode(dict(source=source, format='text'))).read()
         source = request.params.get("source")
