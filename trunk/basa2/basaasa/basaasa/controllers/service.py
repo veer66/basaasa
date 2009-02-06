@@ -18,13 +18,57 @@ import urllib
 
 from routes import url_for
 
+import simplejson
+from webhelpers import paginate
+
+import formencode
+from formencode import htmlfill
+
 log = logging.getLogger(__name__)
 
-import simplejson
+class NewServiceForm(formencode.Schema):
+    allow_extra_fields = True
+    filter_extra_fields = True
+    name = formencode.validators.String(not_empty=True)
+    type = formencode.validators.String(not_empty=True)
+    url = formencode.validators.URL(add_http=True)
+
 
 class ServiceController(BaseController):
-    def index(self):
-        pass
+    def list(self):
+        page = request.params.get('page', 1)
+        service = model.Service.query.all()
+        c.paginator = paginate.Page(service, page = page)  
+        return render("/derived/service/list.html")
+
+    def new(self):
+        return render("/derived/service/new.html")
+
+    @restrict('POST')
+    @validate(schema=NewServiceForm(), form='new')    
+    def create(self):
+        service = model.Service()
+        service.name = self.form_result.get('name')
+        service.type = self.form_result.get('type')
+        service.url = self.form_result.get('url')
+        model.meta.Session.flush()        
+        redirect_to(controller="service", action="list")
+        
+    def view(self, id=None):
+        if id is None:
+            abort(404)
+        c.service = model.Service.get(id)                
+        return render("/derived/service/view.html")
+    
+    def delete(self, id=None):
+        if id is None:
+            abort(404)
+        service = model.Service.get(id)
+        if service is None:
+            abort(404)
+        model.meta.Session.delete(service)
+        model.meta.Session.flush()
+        return render('/derived/service/deleted.html')
     
     def dict(self):
         word = request.params.get("word")
@@ -56,3 +100,28 @@ class ServiceController(BaseController):
         if lang is None or lang is None:
             abort(404)
         return urllib.urlopen(url, urllib.urlencode(dict(text=text, lang=lang))).read()
+    
+    def edit(self, id=None):
+        if id is None:
+            abort(404)
+        service = model.Service.get(id)
+        if service is None:
+            abort(404)
+        values = dict(name = service.name, \
+                      type = service.type, \
+                      url = service.url)        
+        return htmlfill.render(render("/derived/service/edit.html"), values)
+    
+    @restrict('POST')
+    @validate(schema=NewServiceForm(), form='edit')
+    def save(self, id=None):
+        if id is None:
+            abort(404)
+        service = model.Service.get(id)
+        if service is None:
+            abort(404)
+        for k, v in self.form_result.items():
+            if getattr(service, k) != v:
+                setattr(service, k, v)
+        model.meta.Session.flush()
+        redirect_to(action="view", id=id)
