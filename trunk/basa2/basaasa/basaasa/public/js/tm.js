@@ -6,8 +6,8 @@ $(document).ready(function() {
 		var t = $("#body").getSelection();
 		if(t.text != "" && t.text != old) {
 			var doc_id = $("#doc_id").val();
-			var url = "http://127.0.0.1/basa2/doc/tm/" + doc_id;
-			var callback = function(data) {
+			var url = tm_service_url;	
+			var callback = function(data) {				
 				output = "";
 				for(i=0; i < data.length;i++) {
 					output = output + data[i][0] + ":" +  data[i][1] + ":" 

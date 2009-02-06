@@ -6,12 +6,14 @@
 var dict_service_url = "${h.url_for(controller="service", action="dict", id=None)}";
 var transliterate_service_url = "${h.url_for(controller="service", action="transliterate", id=None)}";
 var translate_service_url = "${h.url_for(controller="service", action="translate", id=None)}";
+var tm_service_url = "${h.url_for(controller="doc", action="tm", id=request.urlvars['doc_id'])}";
 </script>
 ${h.javascript_link(h.url_for("/js/jquery.js"))}
 ${h.javascript_link(h.url_for("/js/jquery-fieldselection.js"))}
 ${h.javascript_link(h.url_for("/js/dict.js"))}
 ${h.javascript_link(h.url_for("/js/transliterate.js"))}
 ${h.javascript_link(h.url_for("/js/translate.js"))}
+${h.javascript_link(h.url_for("/js/tm.js"))}
 </%def>
 <p>
 ${h.form_start(h.url_for(controller='trans', action='create', id=request.urlvars['doc_id']), method="post")}
