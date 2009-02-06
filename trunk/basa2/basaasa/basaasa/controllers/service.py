@@ -35,6 +35,10 @@ class NewServiceForm(formencode.Schema):
 
 
 class ServiceController(BaseController):
+    @authorize(ValidAuthKitUser())    
+    def __before__(self):
+        pass
+
     def list(self):
         page = request.params.get('page', 1)
         service = model.Service.query.all()
@@ -74,18 +78,27 @@ class ServiceController(BaseController):
         word = request.params.get("word")
         if word is None:
             abort(404)
-        url = "http://vivaldi.cpe.ku.ac.th/~vee/wsgi-scripts/dict.wsgi/d:"
-        return urllib.urlopen(url + urllib.quote_plus(word.encode("UTF-8"))).read()
+        service = model.Service.query.filter_by(type='dict').first()
+        if service is None:
+            abort(404)
+        url = service.url
+        return urllib.urlopen(url + "/d:" + urllib.quote_plus(word.encode("UTF-8"))).read()
     
     def transliterate(self):
         input = request.params.get("input")
         if input is None:
             abort(404)
-        url = "http://vivaldi.cpe.ku.ac.th/~vee/tubsube2t"
+        service = model.Service.query.filter_by(type='transliterate').first()
+        if service is None:
+            abort(404)    
+        url = service.url
         return urllib.urlopen(url, urllib.urlencode(dict(input=input))).read()
 
     def translate(self):
-        url = "http://vivaldi.cpe.ku.ac.th/mt"
+        service = model.Service.query.filter_by(type='translate').first()
+        if service is None:
+            abort(404)
+        url = service.url
         def trans(source):
             return urllib.urlopen(url, urllib.urlencode(dict(source=source, format='text'))).read()
         source = request.params.get("source")
@@ -94,7 +107,10 @@ class ServiceController(BaseController):
         return simplejson.dumps(map(trans, simplejson.loads(source)))
     
     def segment(self):
-        url = "http://vivaldi.cpe.ku.ac.th/~vee/segment.php";
+        service = model.Service.query.filter_by(type='segment').first()
+        if service is None:
+            abort(404)
+        url = service.url        
         text = request.params.get("text")
         lang = request.params.get("lang")
         if lang is None or lang is None:
