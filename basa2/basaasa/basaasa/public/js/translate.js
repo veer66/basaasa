@@ -7,8 +7,7 @@ $(document).ready(function() {
 		var body = [];
 		for(i = 0; i < segments.length; i++) {
 			body.push(segments[i] + "\n" + data[i]);
-		}
-		alert("!!!: " + body.toSource());
+		}		
 		$("#body").val(body.join("\n\n"));
 	}
 	$.post(url, params, callback, "json");

@@ -176,4 +176,9 @@ class DictKey(Entity):
     type = Field(String(100))
     entry = ManyToOne("DictEntry")
     
+class Service(Entity):
+    name = Field(Unicode(255))
+    type = Field(Unicode(255))
+    url = Field(Unicode(4096))
+    
 elixir.setup_all()

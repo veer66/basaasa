@@ -1,0 +1,15 @@
+<%inherit file="/base/index.html"/>
+<%def name="header()"><div id="header">${_(u"Document")}: ${_(u"view")} ${c.service.id}</div></%def>
+<%def name="menu()">
+<div id="menu">
+${h.link_to(_(u"Edit service"), h.url_for(action="edit", id=c.service.id))} |
+${h.link_to(_(u"Delete service"), h.url_for(action="delete", id=c.service.id))} |
+${h.link_to(_(u"List services"), h.url_for(action="list", id=None))} |
+</div>
+</%def>
+<p>
+<div>${c.service.id}</div>
+<div>${c.service.name}</div>
+<div>${c.service.type}</div>
+<div>${c.service.url}</div>
+</p>
