@@ -1,0 +1,7 @@
+${h.field(_(u"Name"), h.text(name='name'), required=True)}
+${h.field(_(u"Type"), h.select('type', "dict", [("dict", _("Dictionary")), \
+												("transliterate", _("Transliteration")), \
+												("segment", _("Segmentation")), \
+												("translate",_("Translation")) \
+										       ]), required=True)}
+${h.field(_(u"URL"), h.text(name='url', size=70), required=True)}
