@@ -1,0 +1,10 @@
+<%inherit file="/base/index.html"/>
+<%def name="header()"><div id="header">${_(u"User-defined dictionary")}: ${_(u"deleted")}</div></%def>
+<%def name="menu()">
+<div id="menu">
+${h.link_to(_(u"List services"), h.url_for(action="list", id=None))}
+</div>
+</%def>
+<p>
+${_("Deleted")}
+</p>

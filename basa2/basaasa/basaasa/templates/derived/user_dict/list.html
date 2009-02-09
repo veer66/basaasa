@@ -1,0 +1,27 @@
+<%inherit file="/base/index.html"/>
+<%def name="header()"><div id="header">${_(u"Document")}: ${_(u"list")}</div></%def>
+<%def name="menu()">
+<div id="menu">
+${h.link_to(_(u"New entry"), h.url_for(action="new", id=None))}
+</div>
+</%def>
+<p>
+<ul>
+<table class="data">
+	<tr>
+		<td>${_("id")}</td>
+		<td>${_("headword")}</td>
+		<td>${_("language")}</td>
+		<td>${_("translations")}</td>
+	</tr>
+	% for dict_entry in c.paginator:
+	<tr>  
+		<td>${dict_entry.id}</td> 
+		<td>${h.link_to(dict_entry.headword, h.url_for(action="view", id=dict_entry.id))}</td>
+		<td>${h.link_to(dict_entry.lang, h.url_for(action="view", id=dict_entry.id))}</td>
+		<td>${h.link_to(', '.join(dict_entry.translations()), h.url_for(action="view", id=dict_entry.id))}</td>
+	</tr>		 
+	% endfor  
+<table>
+<p>${ c.paginator.pager('~2~') }</p>
+</p>

@@ -181,4 +181,16 @@ class Service(Entity):
     type = Field(Unicode(255))
     url = Field(Unicode(4096))
     
+class UserDict(Entity):
+    owner = ManyToOne("User")
+    lang = Field(Unicode(64))
+    headword = Field(Unicode(255))
+    data = Field(JsonType)
+    
+    def translations(self, translations=None):
+        if translations is None:
+            return self.data
+        else:
+            self.data = translations
+        
 elixir.setup_all()

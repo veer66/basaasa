@@ -1,0 +1,12 @@
+<%inherit file="/base/index.html"/>
+<%namespace file="fields.html" name="fields" import="*"/>
+<%def name="header()"><div id="header">${_(u"User-defined dictionary")}: ${_(u"edit")}</div></%def>
+<%def name="script()">
+</%def>
+<p>
+${h.form_start(h.url_for(controller='user_dict', action='save',  id=request.urlvars['id']), method="post")}
+    ${fields.body()}
+    ${h.field(field=h.submit(value=_("Save change"), name='submit'))}
+${h.form_end()}
+</p>
+
