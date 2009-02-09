@@ -1,0 +1,4 @@
+${h.field(_(u"Headword"), h.text(name='headword'), required=True)}
+${h.field(_(u"Language"), h.select('lang', 'eng', \
+	[('eng', _('English')), ('tha', _('Thai'))]), required=True)}
+${h.field(_(u"Translations"), h.textarea(name='translations', id='translations', rows=20, cols=70), required=True)}

@@ -1,0 +1,15 @@
+<%inherit file="/base/index.html"/>
+<%def name="header()"><div id="header">${_(u"User-defined dictionary")}: ${_(u"view")} ${c.dict_entry.id}</div></%def>
+<%def name="menu()">
+<div id="menu">
+${h.link_to(_(u"Edit entry"), h.url_for(action="edit", id=c.dict_entry.id))} |
+${h.link_to(_(u"Delete entry"), h.url_for(action="delete", id=c.dict_entry.id))} |
+${h.link_to(_(u"List entries"), h.url_for(action="list", id=None))} |
+</div>
+</%def>
+<p>
+<div>${c.dict_entry.id}</div>
+<div>${c.dict_entry.headword}</div>
+<div>${', '.join(c.dict_entry.translations())}</div>
+</p>
+
