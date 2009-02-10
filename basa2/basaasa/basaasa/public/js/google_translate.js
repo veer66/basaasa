@@ -1,4 +1,5 @@
 $(document).ready(function() {
+	google.language.getBranding('branding');
 	
 	function newline_to_br(txt) {
         return txt.replace(/\n\n+/g, "<br/>");

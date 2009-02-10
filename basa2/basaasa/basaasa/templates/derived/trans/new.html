@@ -24,6 +24,9 @@ ${h.javascript_link(h.url_for("/js/tm.js"))}
 %endif
 
 </%def>
+%if c.use_google:
+<div id='branding'> </div>
+%endif
 <p>
 ${h.form_start(h.url_for(controller='trans', action='create', id=request.urlvars['doc_id']), method="post")}
     ${fields.body()}
