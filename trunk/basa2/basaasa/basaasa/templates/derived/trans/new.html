@@ -12,8 +12,17 @@ ${h.javascript_link(h.url_for("/js/jquery.js"))}
 ${h.javascript_link(h.url_for("/js/jquery-fieldselection.js"))}
 ${h.javascript_link(h.url_for("/js/dict.js"))}
 ${h.javascript_link(h.url_for("/js/transliterate.js"))}
-${h.javascript_link(h.url_for("/js/translate.js"))}
 ${h.javascript_link(h.url_for("/js/tm.js"))}
+%if c.use_google:
+	${h.javascript_link('http://www.google.com/jsapi')}
+	<script type="text/javascript">
+		google.load("language", "1");
+	</script>
+	${h.javascript_link(h.url_for("/js/google_translate.js"))}
+%else:
+	${h.javascript_link(h.url_for("/js/translate.js"))}
+%endif
+
 </%def>
 <p>
 ${h.form_start(h.url_for(controller='trans', action='create', id=request.urlvars['doc_id']), method="post")}

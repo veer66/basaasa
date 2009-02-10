@@ -101,6 +101,7 @@ class TransController(BaseController):
                   "source_body": document.body,
                   "segment": document.segment,
                   "source_title": document.title}
+        c.use_google = True
         return htmlfill.render(render("/derived/trans/new.html"), values)
 #        return render("/derived/trans/new.html")
 
