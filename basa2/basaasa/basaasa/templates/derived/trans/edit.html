@@ -18,9 +18,6 @@ ${h.javascript_link(h.url_for("/js/tm.js"))}
 <form><input type="hidden" name="tulen" value="${len(c.textunits)}"/></form>
 ${h.form_start("")}
 ${h.form_end()}
-
-
-
 </div>
 <p>
 ${h.form_start(h.url_for(controller='trans', action='save',doc_id=request.urlvars['doc_id']), method="post")}
