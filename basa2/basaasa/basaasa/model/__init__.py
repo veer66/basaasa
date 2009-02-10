@@ -97,7 +97,7 @@ from basaasa.users import edit_distance
 
 class Document(Entity):
     body = Field(Unicode(10000000), nullable=False)
-    segment = Field(Unicode(10000000), nullable=True, default="")
+    segment = Field(JsonType)
     title = Field(Unicode(255))
     checking_needed = Field(Boolean, default=False, nullable=False)
     latest_editor = ManyToOne("User")

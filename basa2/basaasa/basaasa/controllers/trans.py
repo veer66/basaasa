@@ -1,21 +1,16 @@
 import logging
-
 from pylons import request, response, session, tmpl_context as c
 from pylons.controllers.util import abort, redirect_to
-
 from basaasa.lib.base import BaseController, render
-
 from authkit.permissions import ValidAuthKitUser
 from authkit.authorize.pylons_adaptors import authorize
 from webhelpers import paginate  
-
 from pylons.decorators import validate
 from pylons.decorators.rest import restrict
-
 import formencode
 from formencode import htmlfill
-
 from basaasa import model
+import re
 
 log = logging.getLogger(__name__)
 
@@ -37,8 +32,6 @@ class NewTransForm(formencode.Schema):
     filter_extra_fields = False
     title = formencode.validators.String(not_empty=True)
     body = formencode.validators.String(not_empty=True)
-#    source_body = formencode.validators.String(not_empty=False)
-#    source_title = formencode.validators.String(not_empty=False)
 
 # This implementation is for bitext only 
 # TODO: multilingual
@@ -63,31 +56,14 @@ class TransController(BaseController):
         else: 
             c.textunits = document.textunits()
             translation = document.latest_translation() 
-       
-        list = ""
-        list1 = []
-        list2 = []
-        lista = ""
-        listb = ""
-
-        list1 = document.segment.split("\n")
-        list2 = translation.body.split("\n")
-
-        for i in range(len(list1)):
-
-            list += list1[i]+"\n"+list2[i]+"\n"+"\n"
-            print "Length of the string = ",len(list1),len(list2)
-            print list,"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-
-        for i in range(1,100):
-            print "Length of the string = ",i
-            
-            values = {"title": translation.title,  
-                      "body": list,
-                      "source_body": document.segment,
-                      "segment": document.segment,
-                      "source_title": document.title}
-            return htmlfill.render(render("/derived/trans/edit.html"), values)
+        pairs = zip(document.segment, translation.body)
+        pairs = map(lambda pair: pair[0] + "\n" + pair[1], pairs)
+        values = {"title": translation.title,  
+                  "body": "\n\n".join(pairs),
+                  "source_body": "\n|n".join(document.segment),
+                  "segment": "\n\n".join(document.segment),
+                  "source_title": document.title}
+        return htmlfill.render(render("/derived/trans/edit.html"), values)
 
     def new(self, doc_id=None):
         if doc_id is None:  
@@ -95,7 +71,6 @@ class TransController(BaseController):
         document = model.Document.get(doc_id)
         if document is None:
             abort(404)
-#        c.textunits = document.textunits()
         values = {"title": '',  
                   "body": '',
                   "source_body": document.body,
@@ -103,7 +78,6 @@ class TransController(BaseController):
                   "source_title": document.title}
         c.use_google = True
         return htmlfill.render(render("/derived/trans/new.html"), values)
-#        return render("/derived/trans/new.html")
 
     @restrict('POST')
     @validate(schema=NewTransForm(), form='new')
@@ -113,30 +87,14 @@ class TransController(BaseController):
         document = model.Document.get(doc_id)
         if document is None:
             abort(404)
-        body = self.form_result.get('body')
-        
-        target_segment = ""
-        list = []
-                
-        source_segment = ""
-        list2 = []
-        
-        body = self.form_result.get('body')
-        body = body.replace("\r","")
-        
-        for i, line in enumerate(body.split("\n\n")):            
-            list = line.split("\n")
-            target_segment += list[1] + '\n'
-
-        for i, line2 in enumerate(body.split("\n\n")):
-            list2 = line2.split("\n")
-            source_segment += (list2[0] + "\n")
-            
-        document.segment = source_segment
-            
+        body = self.form_result.get('body').replace("\r","")
+        chunks = map(lambda chunk: chunk.split("\n"), re.split("\n\n+", body))
+        source_segments = map(lambda chunk: chunk[0], chunks)
+        target_segments = map(lambda chunk: chunk[1], chunks)
+        document.segment = source_segments
         translation = model.Translation(document = document,
                                        title = self.form_result.get('title'),
-                                       body = target_segment,
+                                       body = target_segments,
                                        latest_editor = get_user_model())
         model.meta.Session.flush()
         redirect_to(controller="doc", action="view", id=doc_id)
@@ -150,46 +108,13 @@ class TransController(BaseController):
         if document is None:
             abort(404)
         translation = document.latest_translation()
-#        print type(translation.body),"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"    
-#        list = []
-        source_segment = ""
-        target_segment = ""
-        body = self.form_result.get('body')
-        body = body.replace("\r","")
-        lines = body.split("\n\n")
-        for i in range(len(lines)):
-            list = lines[i].split("\n")
-            if len(list) == 2:
-                source_segment += list[0]+"\n"
-                target_segment += list[1]+"\n"
-        print source_segment,"zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz"
-        document.segment = source_segment
-        translation.body = target_segment
+        body = self.form_result.get('body').replace("\r","")
+        chunks = map(lambda chunk: chunk.split("\n"), re.split("\n\n+", body))
+        source_segments = map(lambda chunk: chunk[0], chunks)
+        target_segments = map(lambda chunk: chunk[1], chunks)
+        document.segment = source_segments
         translation.latest_editor = get_user_model()
+        translation.title = self.form_result.get('title')
+        translation.body = target_segments
         model.meta.Session.flush()
         redirect_to(controller="doc", action="view", id=doc_id)
-
-#        for i, line in enumerate(body.split("\n")):            
-#            list = line.split("\n")
-#            source_segment += list[i] + "\n"
-#            print source_segment,list[i]
-
-#        document.latest_translation = source_segment
-#        translation = str(document.latest_translation())
-#        print translation,"qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq"
-#       
-#        list = ""
-#        list1 = []
-#        
-#        for i, line in enumerate(translation.body.split("\n")):            
-#            list1 = line.split("\n")
-#            translation += list1[i] + '\n'
-            
-#        for k in ['title', 'body']:
-#            v = self.form_result.get(k)
-#            if getattr(translation, k) != v:
-#                setattr(translation, k, v)
-                
-#        translation.body = source_segment   
-        
- 
