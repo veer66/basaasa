@@ -4,24 +4,38 @@
 "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
+	<link rel="shortcut icon" href="${h.url_for('/basa_fav.ico')}"/>
     <title>${self.title()}</title>
     ${self.head()}
     ${self.script()}
 </head>
 <body>
-	${self.maintab()}
-	${self.header()}
-	
-	${self.flash()}
-    ${next.body()}
-    ${self.menu()}
+	<table class="maintab">
+		<tr>
+			<td class="logo">${h.image(h.url_for("/basa_logo.png"), "basaasa logo")}</td>		
+			<td class="maintab">${self.maintab()}</td>
+		</tr>
+	</table>
+	<table class="content">
+		<tr>
+			<td class="sidebar">
+				
+			    <div>${self.menu()}</div>
+			</td>
+			<td class="body">
+			${self.flash()}
+			<div>${self.header()}</div>
+			${next.body()}
+			</td>
+		</tr>
+	</table>
 </body>
 </html>
 <%def name="script()"></%def>
 <%def name="menu()"></%def>
 <%def name="maintab()">
-<div id="maintab">${h.link_to(label=_(u"Home"), url=h.url_for(controller="doc", action="list"))} | 
-${h.link_to(label=_(u"Logout"), url=h.url_for(controller="auth", action="signout", id=None))}</div>
+${h.link_to(label=_(u"Home"), url=h.url_for(controller="doc", action="list"))} | 
+${h.link_to(label=_(u"Logout"), url=h.url_for(controller="auth", action="signout", id=None))}
 </%def>
 <%def name="title()">${_(u"BasaAsa")}</%def>
 <%def name="head()">${h.stylesheet_link(h.url_for('/css/main.css'))}</%def>
