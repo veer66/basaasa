@@ -5,8 +5,7 @@
 ${h.link_to(_(u"New entry"), h.url_for(action="new", id=None))}
 </div>
 </%def>
-<p>
-<ul>
+
 <table class="data">
 	<tr>
 		<td>${_("id")}</td>
@@ -24,4 +23,4 @@ ${h.link_to(_(u"New entry"), h.url_for(action="new", id=None))}
 	% endfor  
 <table>
 <p>${ c.paginator.pager('~2~') }</p>
-</p>
+

@@ -6,21 +6,73 @@
 }
 #flash p { margin: 0px; padding: 0px; }
 
-#header {
-	background: #A0FFA0;
-	text-align: center;	
-    padding: 5px;
-    border: 1px dotted #000;
-    margin-bottom: 20px;
+body {
+    background: #9CEF6C;
+    height: 100%;
 }
 
 table.data {
-	border: 2px #d79900 solid;
-	background: #FFA0FF ;
-	color: #404040;
-	padding: 0px;
+	border: 1px #AAAAAA solid;
+	background: #F9F9F9 none repeat scroll 0 0 ;
+	border-collapse: collapse;
+	margin: 1em 1em 1em 0;
+	table-layout: fixed;
+	text-align: center;
 }
 
-.data tr {	
-	background: #FFC0FF;
+table.data td {
+    padding: 5px;
+    border: 1px #53DF00 solid;
+    background: #9CEF6C;
+    text-align: left;
+}
+
+table.data th {
+	background: #369100;
+	border: 1px #53DF00 solid;
+}
+
+table {
+	margin: 0px;
+	border: 0px;
+	border-collapse: collapse;
+}
+
+table.maintab  {
+	width:100%;
+	background: #369100;	
+}
+
+table.maintab a:link, table.maintab a:visited {
+   color: #FFFFFF;
+}
+
+td.sidebar a:link, td.sidebar a:visited {
+   color: #FFFFFF;
+}
+
+table.content {
+	width:100%;
+}
+
+td.sidebar {
+	width: 200px;	
+	background: #58A72A;	
+	vertical-align: top;
+}
+
+td.logo {
+	width: 100px;
+}
+
+td.body {
+	background: #9CEF6C;	
+}
+
+td.maintab {
+    text-align: left;
+}
+
+div.body {
+    background: #9CEF6C;
 }

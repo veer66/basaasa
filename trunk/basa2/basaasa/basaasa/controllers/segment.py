@@ -17,6 +17,8 @@ from formencode import htmlfill
 
 from basaasa import model
 
+import re
+
 log = logging.getLogger(__name__)
 
 class NewSegmentForm(formencode.Schema):
@@ -53,10 +55,10 @@ class SegmentController(BaseController):
         document = model.Document.get(id)
         if document is None:
             abort(404)
-        for k, v in self.form_result.items():
-            if k == 'segment':
-                if getattr(document, k) != v:
-                    setattr(document, k, v)
+        document.title = self.form_result.get('title')
+        document.body = self.form_result.get('body')
+        document.segment = filter(lambda line: line != '', \
+                                  re.split("\n\n+", self.form_result.get('segment')))
         document.latest_editor = get_user_model()
         model.meta.Session.flush()
         redirect_to(action="view", id=id)       
@@ -69,7 +71,9 @@ class SegmentController(BaseController):
             abort(404)
         segment = document.segment
         if segment is None:
-            segment = document.body   
+            segment = ""
+        else:
+            segment = "\n\n".join(segment) 
         values = {"title": document.title, 
                   "body": document.body, 
                   "segment": segment}

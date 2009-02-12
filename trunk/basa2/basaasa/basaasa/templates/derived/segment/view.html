@@ -8,7 +8,7 @@
 <p>
 <div>${c.document.id}</div>
 <div>${c.document.title}</div>
-<div><pre>${c.document.segment}</pre></div>
+<div><pre>${"\n\n".join(c.document.segment)}</pre></div>
 <div><pre>${c.document.body}</pre></div>
 
 ${h.form_start(h.url_for(controller='trans', action='new',  id=request.urlvars['id']), method="post")}

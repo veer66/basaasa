@@ -74,7 +74,7 @@ class TransController(BaseController):
         values = {"title": '',  
                   "body": '',
                   "source_body": document.body,
-                  "segment": document.segment,
+                  "segment": "\n\n".join(document.segment),
                   "source_title": document.title}
         c.use_google = True
         return htmlfill.render(render("/derived/trans/new.html"), values)

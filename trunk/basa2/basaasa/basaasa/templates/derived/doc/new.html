@@ -1,6 +1,6 @@
 <%inherit file="/base/index.html"/>
 <%namespace file="fields.html" name="fields" import="*"/>
-<%def name="header()"><div id="header">${_(u"Document")}: ${_(u"new")}</div></%def>
+<%def name="header()"><div id="header">${_(u"Create new document")}</div></%def>
 <p>
 ${h.form_start(h.url_for(controller='doc', action='create'), method="post")}
     ${fields.body()}
