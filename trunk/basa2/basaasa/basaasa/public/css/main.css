@@ -11,6 +11,11 @@ body {
     height: 100%;
 }
 
+td.line {
+    background: #58A72A;
+	width: 25px;
+}
+
 table.data {
 	border: 1px #AAAAAA solid;
 	background: #F9F9F9 none repeat scroll 0 0 ;
@@ -30,6 +35,7 @@ table.data td {
 table.data th {
 	background: #369100;
 	border: 1px #53DF00 solid;
+	color: #FFFFFF;
 }
 
 table {
@@ -40,7 +46,8 @@ table {
 
 table.maintab  {
 	width:100%;
-	background: #369100;	
+	background: #369100;
+	color: #53DF00;
 }
 
 table.maintab a:link, table.maintab a:visited {
@@ -75,4 +82,20 @@ td.maintab {
 
 div.body {
     background: #9CEF6C;
+}
+
+div.header {
+	background: #58A72A;
+	text-align: center;
+	color: #FFFFFF;
+}
+
+div.menu {
+	background: #58A72A;
+	text-align: center;
+	color: #53DF00;
+}
+
+div.menu a:link, div.menu a:visited {
+   color: #FFFFFF;
 }
