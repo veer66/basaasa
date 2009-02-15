@@ -1,12 +1,8 @@
 <%inherit file="/base/index.html"/>
 <%def name="header()">${_(u"Documents")}</%def>
 <%def name="menu()">
-<div id="menu">
 ${h.link_to(_(u"New document"), h.url_for(action="new", id=None))}
-</div>
 </%def>
-<p>
-<ul>
 <table class="data">
 	<tr>
 		<th>${_("ID")}</th>
@@ -21,6 +17,5 @@ ${h.link_to(_(u"New document"), h.url_for(action="new", id=None))}
 	</tr>		 
 	% endfor  
 <table>
-
 <p>${ c.paginator.pager('~2~') }</p>
-</p>
+

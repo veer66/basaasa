@@ -1,36 +1,37 @@
 <%inherit file="/base/index.html"/>
-<%def name="header()"><div id="header">${_(u"Document")}: ${_(u"view")} ${c.document.id}</div></%def>
+<%def name="header()"><div id="header">${_(u"Document")}</div></%def>
 <%def name="menu()">
-<div id="menu">
 ${h.link_to(_(u"Edit source"), h.url_for(action="edit", id=c.document.id))} |
 ${h.link_to(_(u"Source history"), h.url_for(action="history", id=c.document.id))} |
 ${h.link_to(_(u"Translation history"), h.url_for(action="history", id=c.document.id))} |
 ${h.link_to(_(u"Delete"), h.url_for(action="delete", id=c.document.id))} |
 ${h.link_to(_(u"List documents"), h.url_for(action="list", id=None))} |
 ${h.link_to(_(u"Edit translation"), h.url_for(controller="trans", action="edit", doc_id=c.document.id, id=None))}
-</div>
 </%def>
-<p>
-<div>${c.document.id}</div>
-<div>${c.document.title}</div>
-<div>
-%for segment in c.document.segment:
-<p>${segment}</p>
-%endfor
-</div>
-</p>
 
-<p>
-${_("Latest translation")}:
-
-% if c.translation is None:
-	${_("Does not exist")}
-% else:
-	<div>${c.translation.title}</div>
-	<div>
+<table class="data">
+<tr>
+	<th>${_("ID")}</th>
+	<td>${c.document.id}</td>
+</tr>
+<tr>
+	<th>${_("Title")}</th>
+	<td>${c.document.title}</td>
+</tr>	
+<tr>
+	<th>${_("Segmented source")}</th>
+	<td>
+	%for segment in c.document.segment:
+		${segment}<br/><br/>
+	%endfor
+	</td>
+</tr>
+<tr>
+	<th>${_("Translation")}</th>
+	<td>
 	% for segment in c.translation.body:
-	<p>${segment}</p>
+		${segment}<br/><br/>
 	% endfor
-	</div>
-% endif
-</p>
+	</td>
+</tr>
+</table>
