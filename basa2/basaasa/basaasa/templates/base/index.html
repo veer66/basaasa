@@ -15,17 +15,17 @@
 			<td class="logo">${h.image(h.url_for("/basa_logo.png"), "basaasa logo")}</td>		
 			<td class="maintab">${self.maintab()}</td>
 		</tr>
+		<tr>
+			<td class="line" colspan="2"></td>
+		<tr>
 	</table>
 	<table class="content">
 		<tr>
-			<td class="sidebar">
-				
-			    <div>${self.menu()}</div>
-			</td>
 			<td class="body">
 			${self.flash()}
-			<div>${self.header()}</div>
-			${next.body()}
+			<div class="header">${self.header()}</div>
+			<div>${next.body()}</div>
+			<div class="menu">${self.menu()}</div>
 			</td>
 		</tr>
 	</table>
