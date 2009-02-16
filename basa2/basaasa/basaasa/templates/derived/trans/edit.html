@@ -20,9 +20,11 @@ ${h.form_start("")}
 ${h.form_end()}
 </div>
 <p>
+!!!
 ${h.form_start(h.url_for(controller='trans', action='save',doc_id=request.urlvars['doc_id']), method="post")}
 	${h.hidden("doc_id", value = request.urlvars['doc_id'], id="doc_id")}
     ${fields.body()}
+    ${h.field(field=h.link_to(_(u"Cancel"), h.url_for(controller='doc', action="view", id=request.urlvars['doc_id'])))}
     ${h.field(field=h.submit(value=_(u"Save Changes"), name='submit'))}
 ${h.form_end()}
 </p>

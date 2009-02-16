@@ -58,7 +58,8 @@ class SegmentController(BaseController):
         document.title = self.form_result.get('title')
         document.body = self.form_result.get('body')
         document.segment = filter(lambda line: line != '', \
-                                  re.split("\n\n+", self.form_result.get('segment')))
+                                  re.split("\n\n+", \
+                                           self.form_result.get('segment').replace("\r", "")))
         document.latest_editor = get_user_model()
         model.meta.Session.flush()
         redirect_to(action="view", id=id)       
