@@ -1,23 +1,27 @@
 <%inherit file="/base/index.html"/>
 <%def name="header()"><div id="header">${_(u"Document")}</div></%def>
 <%def name="menu()">
-${h.link_to(_(u"Edit source"), h.url_for(action="edit", id=c.document.id))} |
-${h.link_to(_(u"Source history"), h.url_for(action="history", id=c.document.id))} |
-${h.link_to(_(u"Translation history"), h.url_for(action="history", id=c.document.id))} |
-${h.link_to(_(u"Delete"), h.url_for(action="delete", id=c.document.id))} |
 ${h.link_to(_(u"List documents"), h.url_for(action="list", id=None))} |
-${h.link_to(_(u"Edit translation"), h.url_for(controller="trans", action="edit", doc_id=c.document.id, id=None))}
+${h.link_to(_(u"Source history"), h.url_for(action="history", id=c.document.id))} |
+${h.link_to(_(u"Delete"), h.url_for(action="delete", id=c.document.id))} |
 </%def>
 
 <table class="data">
 <tr>
 	<th>${_("ID")}</th>
 	<td>${c.document.id}</td>
+    <td>${h.link_to(_(u"Edit source"), h.url_for(action="edit", id=c.document.id))}</td>
 </tr>
 <tr>
 	<th>${_("Title")}</th>
 	<td>${c.document.title}</td>
+    <td>${h.link_to(_(u"Edit source"), h.url_for(action="edit", id=c.document.id))}</td>
 </tr>	
+<tr>
+	<th>${_("Source")}</th>
+    <td>${c.document.body}</td>
+    <td>${h.link_to(_(u"Edit source"), h.url_for(action="edit", id=c.document.id))}</td>
+</tr>
 <tr>
 	<th>${_("Segmented source")}</th>
 	<td>
@@ -25,6 +29,7 @@ ${h.link_to(_(u"Edit translation"), h.url_for(controller="trans", action="edit",
 		${segment}<br/><br/>
 	%endfor
 	</td>
+    <td>${h.link_to(_(u"Edit segment"), h.url_for(controller="segment", action="edit", id=c.document.id))}</td>
 </tr>
 <tr>
 	<th>${_("Translation")}</th>
@@ -33,5 +38,6 @@ ${h.link_to(_(u"Edit translation"), h.url_for(controller="trans", action="edit",
 		${segment}<br/><br/>
 	% endfor
 	</td>
+    <td>${h.link_to(_(u"Edit translation"), h.url_for(controller="trans", action="edit", doc_id=c.document.id, id=None))}</td>
 </tr>
 </table>
