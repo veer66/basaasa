@@ -2,17 +2,31 @@
 <%def name="header()"><div id="header">${_(u"Segment")}: ${_(u"view")} ${c.document.id}</div></%def>
 <%def name="menu()">
 <div id="menu">
-
+${h.link_to(_(u"Edit segment"), h.url_for(controller="segment", action="edit", id=c.document.id))} |
+${h.link_to(_(u"Translate using these segments"), h.url_for(controller="trans", action="new", id=c.document.id))} |
+${h.link_to(_(u"List documents"), h.url_for(controller='doc', action="list", id=None))} 
 </div>
 </%def>
-<p>
-<div>${c.document.id}</div>
-<div>${c.document.title}</div>
-<div><pre>${"\n\n".join(c.document.segment)}</pre></div>
-<div><pre>${c.document.body}</pre></div>
 
-${h.form_start(h.url_for(controller='trans', action='new',  id=request.urlvars['id']), method="post")}
-    ${h.field(field=h.submit(value=_(u"Translate"), name='translate'))}
-${h.form_end()}
-</p>
-
+<table class="data">
+<tr>
+    <th>${_("ID")}</th>
+    <td>${c.document.id}</td>
+<tr>
+<tr>
+    <th>${_("Title")}</th>
+    <td>${c.document.title}</td>
+<tr>
+<tr>
+    <th>${_("Body")}</th>
+    <td>${c.document.body}</td>
+<tr>
+<tr>
+    <th>${_("Segment")}</th>
+    <td>
+    %for segment in c.document.segment:
+        ${segment}<br/> <br/>
+    %endfor
+    </td>
+<tr>
+</table>
