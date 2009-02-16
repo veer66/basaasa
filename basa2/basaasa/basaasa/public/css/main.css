@@ -30,13 +30,16 @@ table.data td {
     border: 1px #53DF00 solid;
     background: #9CEF6C;
     text-align: left;
+    vertical-align: top;
 }
 
 table.data th {
 	background: #369100;
 	border: 1px #53DF00 solid;
 	color: #FFFFFF;
+    vertical-align: top;
 }
+
 
 table {
 	margin: 0px;
