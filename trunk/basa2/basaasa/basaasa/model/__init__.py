@@ -137,10 +137,10 @@ class Document(Entity):
         translations = self.translations
         if len(translations) < 1:
             return []
-        translation = translations[0].body.split("\n")
+        translation = translations[0].body
         fragment = map(lambda s: s.lower(), fragment.split(" "))
         ans = []
-        for i, s in enumerate(self.segment.split("\n")):
+        for i, s in enumerate(self.segment):
             s = map(lambda s: s.lower(), s.split(" "))
             d = edit_distance(fragment, s)
             diff = max(float(d) / float(len(fragment)), float(d) / float(len(s)))            

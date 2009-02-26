@@ -1,7 +1,40 @@
-${h.field(_(u"Source title"), h.text(name='source_title', id='source_title', rows='10', cols='90'), required=False)}
-${h.field(_(u"Source body"), h.textarea(name='segment', id='segment', rows='10', cols='90'), required=False)}
-${h.field(_(u"Title"), h.text(name='title',id='title', rows='10', cols='90'), required=True)}
-${h.field(_(u"Body"), h.textarea(name='body', id='body',rows='20', cols='90'), required=True)}
-${h.field(_(u"Dictionary"), h.textarea(name='dictionary',id='dictionary', rows='2', cols='90'))}
-${h.field(_(u"Transliteration"), h.textarea(name='tubsub',id='tubsub', rows='2', cols='90'))}
-${h.field(_(u"Translation memory"), h.textarea(name='tm',id='tm', rows='2', cols='90'))}
+<table class="translation">
+    <tr>
+        <th>${_("Source")}</th>
+        <th></th>
+        <th>${_("Target")}</th>
+    </tr>
+    <tr>
+        <td>
+        <input type="text" class="source" value="${c.source_title}" size="50" id="source_title"/>
+        </td>
+        <td><form><input type="button" value="${_('Translate')}" onclick="translate('#source_title', '#target_title');" /></form></td>
+        <td>
+        <input type="text" value="${c.title}" size="50" name="title" id="target_title"/>
+        </td>
+    </tr>
+    % for i, tr_pair in enumerate(c.body):
+    <tr>
+        <td><textarea id="source_${i}" rows="2" cols="50" class="source">${tr_pair[0]}</textarea></td>
+        <td>
+            <form>
+            <input type="button" value="${_('Translate')}"
+                   onclick="translate('#source_${i}', '#target_${i}');" />
+            </form>
+        </td>
+        <td>
+            <textarea name="target_${i}" id="target_${i}" rows="2" cols="50">${tr_pair[1]}</textarea>
+        </td>
+    </tr>
+    % endfor
+</table>
+
+<div>
+<table class="lookup">
+<tr>
+<td><pre id="dictionary" class="lookup">${_("Dictionary")}</pre></td>
+<td><pre id="tubsub" class="lookup">${_("Transliteration")}</pre></td>
+<td><pre id="tm" class="lookup">${_("Translation memory")}</pre></td>
+</tr>
+</table>
+</div>

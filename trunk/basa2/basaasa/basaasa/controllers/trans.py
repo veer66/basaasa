@@ -54,16 +54,13 @@ class TransController(BaseController):
         if not document.is_exist_translation():
             redirect_to(action="new", doc_id=doc_id)
         else: 
-            c.textunits = document.textunits()
             translation = document.latest_translation() 
         pairs = zip(document.segment, translation.body)
-        pairs = map(lambda pair: pair[0] + "\n" + pair[1], pairs)
-        values = {"title": translation.title,  
-                  "body": "\n\n".join(pairs),
-                  "source_body": "\n|n".join(document.segment),
-                  "segment": "\n\n".join(document.segment),
-                  "source_title": document.title}
-        return htmlfill.render(render("/derived/trans/edit.html"), values)
+        c.title = translation.title
+        c.body = pairs
+        c.source_title = document.title
+        c.use_google = True
+        return render("/derived/trans/edit.html")
 
     def new(self, doc_id=None):
         if doc_id is None:  
@@ -71,36 +68,33 @@ class TransController(BaseController):
         document = model.Document.get(doc_id)
         if document is None:
             abort(404)
-        values = {"title": '',  
-                  "body": '',
-                  "source_body": document.body,
-                  "segment": "\n\n".join(document.segment),
-                  "source_title": document.title}
+        c.document = document
+        c.source_title = document.title
+        c.title = ""
+        c.body = zip(document.segment, ["" for i in range(len(document.segment))])
         c.use_google = True
-        return htmlfill.render(render("/derived/trans/new.html"), values)
+        return render("/derived/trans/new.html")
 
-    @restrict('POST')
-    @validate(schema=NewTransForm(), form='new')
     def create(self, doc_id):
         if doc_id is None:  
             abort(404)
         document = model.Document.get(doc_id)
         if document is None:
             abort(404)
-        body = self.form_result.get('body').replace("\r","")
-        chunks = map(lambda chunk: chunk.split("\n"), re.split("\n\n+", body))
-        source_segments = map(lambda chunk: chunk[0], chunks)
-        target_segments = map(lambda chunk: chunk[1], chunks)
-        document.segment = source_segments
+
+        target_items = [(int(re.match("^target_(\d+)$", i[0]).group(1)), i[1]) \
+                        for i in request.params.items() if \
+                            re.match("^target_\d+$", i[0])]
+        target_items.sort(lambda a, b: cmp(a[0], b[0]))
+        target_segments = [i[1] for i in target_items]
+
         translation = model.Translation(document = document,
-                                       title = self.form_result.get('title'),
+                                       title = request.params.get('title'),
                                        body = target_segments,
                                        latest_editor = get_user_model())
         model.meta.Session.flush()
         redirect_to(controller="doc", action="view", id=doc_id)
     
-    @restrict('POST')
-    @validate(schema=NewTransForm(), form='edit')
     def save(self, doc_id=None):
         if doc_id is None:
             abort(404)
@@ -108,13 +102,13 @@ class TransController(BaseController):
         if document is None:
             abort(404)
         translation = document.latest_translation()
-        body = self.form_result.get('body').replace("\r","")
-        chunks = map(lambda chunk: chunk.split("\n"), re.split("\n\n+", body))
-        source_segments = map(lambda chunk: chunk[0], chunks)
-        target_segments = map(lambda chunk: chunk[1], chunks)
-        document.segment = source_segments
         translation.latest_editor = get_user_model()
-        translation.title = self.form_result.get('title')
+        translation.title = request.params.get('title')
+        target_items = [(int(re.match("^target_(\d+)$", i[0]).group(1)), i[1]) \
+                        for i in request.params.items() if \
+                            re.match("^target_\d+$", i[0])]
+        target_items.sort(lambda a, b: cmp(a[0], b[0]))
+        target_segments = [i[1] for i in target_items]
         translation.body = target_segments
         model.meta.Session.flush()
         redirect_to(controller="doc", action="view", id=doc_id)

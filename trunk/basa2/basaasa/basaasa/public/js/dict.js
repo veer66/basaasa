@@ -1,28 +1,26 @@
 $(document).ready(function() {
-	function build_handler(query) {
+	function build_handler(element) {
 		var handler = function() {
 			var old = "";
 			var update = function() {
-				var t = $(query).getSelection();
+				var t = element.getSelection();
 				var url = dict_service_url;
 				var callback = function(d) {
 					all = "";
 		            for(i = 0; i < d.length; i++) {
 		            	all = all + "\n" +"Dictionary: " +d[i].database + "\n" + d[i].def+ "\n"+ "\n" ;	              
 		            }	            
-		            $("#dictionary").val(all);
+		            $("#dictionary").text(all);
 				}	    
 		        if(t.text != "" && t.text != old) { 
+		            $("#dictionary").text("...");
 		            $.get(url , {word: t.text}, callback, "json");
 		            old = t.text;
 		        }
 			}
-			$(query).keydown(update).keyup(update).mousedown(update).mouseup(update).mousemove(update);
+			element.keydown(update).keyup(update).mousedown(update).mouseup(update).mousemove(update);
 		}	
 		return handler;
 	}
-	build_handler("#segment")();
-	build_handler("#body")();
-	build_handler("#title")();
-	build_handler("#source_title")();
+	$(".source").each(function() { build_handler($(this))(); });
 }); 
