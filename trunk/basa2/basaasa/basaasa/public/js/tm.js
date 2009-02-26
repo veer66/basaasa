@@ -2,11 +2,11 @@ $(document).ready(function() {
 	function build_handler(element) {
         var handler = function() {
             $("#tm").text("...");
-            var old = "";
             
             var update = function() {
-                var t = $(element).getSelection();
-                if(t.text != "" && t.text != old) {
+                var t = $(element).val();
+                if(t != "") {
+                    $("#tm").text("...");
                     var doc_id = $("#doc_id").val();
                     var url = tm_service_url;	
 
@@ -20,13 +20,12 @@ $(document).ready(function() {
                         $("#tm").text(output);
                     }
 
-                    var params = {"fragment": t.text};
+                    var params = {"fragment": t};
 
                     $.post(url, params, callback, "json");
-                    old = t.text;
                 }
             }
-            element.keydown(update).keyup(update).mousedown(update).mouseup(update).mousemove(update)
+            element.click(update)
         }
         return handler;
     }
