@@ -102,3 +102,14 @@ div.menu {
 div.menu a:link, div.menu a:visited {
    color: #FFFFFF;
 }
+
+.lookup {
+	color: #000000;
+    overflow: scroll;
+    width: 300px;
+    height: 200px;
+}
+
+table.translation {
+    overflow: scroll;
+}

@@ -1,30 +1,29 @@
 $(document).ready(function() {
-	function build_handler(query) {
+	function build_handler(element) {
 		var handler = function() {
 			var old = "";
 			var update = function() {
-				var t = $(query).getSelection();
+				var t = element.getSelection();
 				var url = transliterate_service_url;
 				//data = {"input": word};
 				var params = {};
 				params['input'] = t.text;
 				
 				var callback = function(d) {
-		    
-		            $("#tubsub").val(d);
+		            $("#tubsub").text(d[0]);
 				}
 		        if(t.text != "" && t.text != old) { 
+		            $("#tubsub").text("...");
 		            $.post(url , params, callback, "json");
 		            old = t.text;
 		       }
 			}
-			$(query).keydown(update).keyup(update).mousedown(update).mouseup(update).mousemove(update)
+			element.keydown(update).keyup(update).mousedown(update).mouseup(update).mousemove(update)
 		}
 		return handler;
 	}
-	build_handler("#segment")();
-	build_handler("#body")();
-	build_handler("#title")();
-	build_handler("#source_title")();
+    $(".source").each(function() {
+        build_handler($(this))();
+    });
 }); 
 

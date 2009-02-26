@@ -1,20 +1,14 @@
 <%inherit file="/base/index.html"/>
 <%namespace file="fields.html" name="fields" import="*"/>
-<%def name="header()"><div id="header">${_(u"Document")}: ${_(u"new")}</div></%def>
 <%def name="script()">
 <script type="text/javascript">
-var dict_service_url = "${h.url_for(controller="service", action="dict", id=None)}";
-var transliterate_service_url = "${h.url_for(controller="service", action="transliterate", id=None)}";
-var translate_service_url = "${h.url_for(controller="service", action="translate", id=None)}";
-var tm_service_url = "${h.url_for(controller="doc", action="tm", id=request.urlvars['doc_id'])}";
-
+var dict_service_url = "${h.url_for(controller="service", action="dict", id=None, doc_id=None)}";
+var transliterate_service_url = "${h.url_for(controller="service", action="transliterate", doc_id=None, id=None)}";
+var translate_service_url = "${h.url_for(controller="service", action="translate", id=None, doc_id=None)}";
+var tm_service_url = "${h.url_for(controller="doc", action="tm", id=request.urlvars['doc_id'], doc_id=None)}";
 </script>
 ${h.javascript_link(h.url_for("/js/jquery.js"))}
 ${h.javascript_link(h.url_for("/js/jquery-fieldselection.js"))}
-<script type="text/javascript">
-$(document).ready(function() {
-});
-</script>
 ${h.javascript_link(h.url_for("/js/dict.js"))}
 ${h.javascript_link(h.url_for("/js/transliterate.js"))}
 ${h.javascript_link(h.url_for("/js/tm.js"))}
@@ -29,13 +23,16 @@ ${h.javascript_link(h.url_for("/js/tm.js"))}
 %endif
 
 </%def>
+<%def name="header()"><div id="header">${_(u"Create new translation")}</div></%def>
 %if c.use_google:
 <div id='branding'> </div>
 %endif
 <p>
-${h.form_start(h.url_for(controller='trans', action='create', id=request.urlvars['doc_id']), method="post")}
+<form method="post"
+      action="${h.url_for(controller='trans', action='create', doc_id=request.urlvars['doc_id'])}">
+	${h.hidden("doc_id", value = request.urlvars['doc_id'], id="doc_id")}
     ${fields.body()}
-    ${h.field(field=h.link_to("Cancel", h.url_for(controller='segment', action='edit', doc_id=None, id=request.urlvars['doc_id'])))}
-    ${h.field(field=h.submit(value=_(u"Create translation"), name='submit', id='cancel'))}
-${h.form_end()}
+    ${h.link_to(_(u"Cancel"), h.url_for(controller='doc', action="view", id=request.urlvars['doc_id']))}
+    ${h.submit(value=_(u"Save Changes"), name='submit')}
+</form>
 </p>
