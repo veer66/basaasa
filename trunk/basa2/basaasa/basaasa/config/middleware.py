@@ -47,10 +47,8 @@ def make_app(global_conf, full_stack=True, static_files=True, **app_conf):
     app = CacheMiddleware(app, config)
 
     # CUSTOM MIDDLEWARE HERE (filtered by error handling middlewares)
-
-    if config.get('basaasa.proxy_prefix'):
-        app = PrefixMiddleware(app, prefix=config['basaasa.proxy_prefix'])
     app = authkit.authenticate.middleware(app, app_conf)  
+
     if asbool(full_stack):
         # Handle Python exceptions
         app = ErrorHandler(app, global_conf, **config['pylons.errorware'])
@@ -70,4 +68,6 @@ def make_app(global_conf, full_stack=True, static_files=True, **app_conf):
         static_app = StaticURLParser(config['pylons.paths']['static_files'])
         app = Cascade([static_app, app])
 
+    if config.get('basaasa.proxy_prefix'):
+        app = PrefixMiddleware(app, prefix=config['basaasa.proxy_prefix'])
     return app
