@@ -1,4 +1,5 @@
 $(document).ready(function() {
+    $("#segment").val("...");
 	var t = $("#body").val();
 	var url = segment_service_url;
 	var params = {};
