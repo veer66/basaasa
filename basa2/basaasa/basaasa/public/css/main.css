@@ -107,9 +107,10 @@ div.menu a:link, div.menu a:visited {
 	color: #000000;
     overflow: scroll;
     width: 300px;
-    height: 200px;
+    height: 150px;
 }
 
-table.translation {
+div.translation {
     overflow: scroll;
+    height: 200px;
 }
