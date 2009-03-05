@@ -1,0 +1,24 @@
+#-*- coding: UTF-8 -*-
+<%inherit file="/base/index.html"/>
+<%def name="header()">${_("")}</%def>
+<%def name="menu()"></%def>
+<div class="$css_class">$message</div>
+<form action="$action" method="post">
+<table>
+<tr>
+    <td>${_('Please sign in using OpenID')}</td>
+</tr>
+<tr>
+    <td class="openid">
+    <img src="${h.url_for('/openid.gif')}"/>
+    <input type="text" name="openid" value="$value">
+    </td>
+</tr>
+<tr>
+    <td>
+    <input type="submit" name="authform" value="${_('Sign in')}"/>
+    </td>
+</tr>
+</table>
+</form>
+<div><a href="http://openid.net/get/">${_("Please click here if you do not have OpenID")}</a></div>
