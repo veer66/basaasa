@@ -114,3 +114,7 @@ div.translation {
     overflow: scroll;
     height: 200px;
 }
+
+td.openid {
+    background: #FFFFFF;
+}
