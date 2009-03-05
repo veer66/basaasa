@@ -45,54 +45,6 @@ def init_model(engine):
 from elixir import *
 from ext import acts_as_versioned
 
-class User(Entity):
-    uid = Field(Integer, primary_key=True)
-    username = Field(String(255), unique=True, nullable=False)
-    password = Field(String(255), nullable=False)
-    group = ManyToOne("Group")
-    roles = ManyToMany("Role", lazy=True) 
-    group = ManyToOne("Group") 
-
-    def __init__(
-        self,
-        username,
-        uid=None,
-        password=None,
-        group_uid=None,
-    ):
-        Entity.__init__(self)
-        self.uid        = uid
-        self.username   = username
-        self.password   = password
-        self.group_uid  = group_uid
-        
-    def __repr__(self):
-        return "User(%(username)s)" % self.__dict__
-
-class Group(Entity):
-    uid = Field(Integer, primary_key=True)
-    name = Field(String(255), unique=True, nullable=False)
-    users = OneToMany("User")
-
-    def __init__(self, name=None):
-        Entity.__init__(self)
-        self.name = name
-        
-        def __repr__(self):
-            return "Group(%(name)s)" % self.__dict__
-        
-class Role(Entity):
-    uid = Field(Integer, primary_key=True)
-    name = Field(String(255), unique=True, nullable=False)
-    users = ManyToMany("User", lazy=True) 
-
-    def __init__(self, name=None):
-        Entity.__init__(self)
-        self.name = name
-    
-    def __repr__(self):
-        return "Role(%(name)s)" % self.__dict__
-
 from basaasa.users import edit_distance
 
 class Document(Entity):
@@ -100,7 +52,7 @@ class Document(Entity):
     segment = Field(JsonType, default=[])
     title = Field(Unicode(255))
     checking_needed = Field(Boolean, default=False, nullable=False)
-    latest_editor = ManyToOne("User")
+    latest_editor = Field(String(4096))
     lazy_deleted = Field(Boolean, default=False, nullable=False)
     translations = OneToMany("Translation", order_by="-id")
     lang = Field(Unicode(255))
@@ -109,10 +61,9 @@ class Document(Entity):
     def lazy_delete(self):
         self.lazy_deleted = True
         
+    # FIXME: remove this
     def get_version_with_editor(self, version_no):
         version = self.get_version(version_no)
-        user = User.get(version.latest_editor_uid)
-        version.latest_editor = user
         return version
         
     @staticmethod
@@ -150,7 +101,7 @@ class Document(Entity):
     
 class Comment(Entity):
     body = Field(Unicode(1000000))
-    author = ManyToOne("User")
+    author = Field(String(4096))
     document = ManyToOne("Document")
     
 class Translation(Entity):    
@@ -158,7 +109,7 @@ class Translation(Entity):
     body = Field(JsonType, default=[])
     lang = Field(Unicode(255))
     source_version = Field(Integer)
-    latest_editor = ManyToOne("User")
+    latest_editor = Field(String(4096))
     document = ManyToOne("Document")
     acts_as_versioned()
     
@@ -179,10 +130,10 @@ class DictKey(Entity):
 class Service(Entity):
     name = Field(Unicode(255))
     type = Field(Unicode(255))
-    url = Field(Unicode(4096))
+    url = Field(String(4096))
     
 class UserDict(Entity):
-    owner = ManyToOne("User")
+    owner = Field(String(4096))
     lang = Field(Unicode(64))
     headword = Field(Unicode(255))
     data = Field(JsonType)
