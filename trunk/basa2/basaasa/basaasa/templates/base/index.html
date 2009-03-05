@@ -38,6 +38,7 @@ ${h.link_to(label=_(u"Home"), url=h.url_for(controller="doc", action="list"))} |
 % if c.is_admin:
     ${h.link_to(label=_(u"Services"), url=h.url_for(controller="service", action="list"))} | 
 % endif
+${h.link_to(label=_(u"Bug report"), url='http://code.google.com/p/basaasa/issues/list', id=None)} |
 ${h.link_to(label=_(u"Logout"), url=h.url_for(controller="auth", action="signout", id=None))}
 </%def>
 <%def name="title()">${_(u"BasaAsa")}</%def>
