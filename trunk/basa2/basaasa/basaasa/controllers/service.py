@@ -5,12 +5,11 @@ from pylons.controllers.util import abort, redirect_to
 
 from basaasa.lib.base import BaseController, render
 
-from authkit.permissions import ValidAuthKitUser
 from authkit.authorize.pylons_adaptors import authorize
 
 from pylons.decorators import validate
 from pylons.decorators.rest import restrict
-
+from basaasa.lib.permissions import Admin
 from basaasa import model
 import re
 
@@ -35,7 +34,7 @@ class NewServiceForm(formencode.Schema):
 
 
 class ServiceController(BaseController):
-    @authorize(ValidAuthKitUser())    
+    @authorize(Admin())    
     def __before__(self):
         pass
 

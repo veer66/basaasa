@@ -5,7 +5,7 @@ from pylons.controllers.util import abort, redirect_to
 
 from basaasa.lib.base import BaseController, render
 
-from authkit.permissions import ValidAuthKitUser
+from authkit.permissions import RemoteUser
 from authkit.authorize.pylons_adaptors import authorize
 from webhelpers import paginate  
 
@@ -18,6 +18,8 @@ from formencode import htmlfill
 from basaasa import model
 import simplejson
 
+from basaasa.lib.user import get_user
+
 log = logging.getLogger(__name__)
 
 class NewDocForm(formencode.Schema):
@@ -26,21 +28,8 @@ class NewDocForm(formencode.Schema):
     title = formencode.validators.String(not_empty=True)
     body = formencode.validators.String(not_empty=True)
 
-def get_user():
-    return request.environ['authkit.users'].user(request.environ['REMOTE_USER'])
-
-def get_user_id():
-    username = get_user().get('username')
-    user = model.User.query.filter_by(username=username).one()
-    return user.uid
-
-def get_user_model():
-    username = get_user().get('username')
-    user = model.User.query.filter_by(username=username).one()
-    return user
-
 class DocController(BaseController):
-    @authorize(ValidAuthKitUser())    
+    @authorize(RemoteUser())    
     def __before__(self):
         pass
     
@@ -69,7 +58,7 @@ class DocController(BaseController):
         document = model.Document()
         document.title = self.form_result.get('title')
         document.body = self.form_result.get('body')
-        document.latest_editor = get_user_model()
+        document.latest_editor = get_user()
         model.meta.Session.flush()        
         redirect_to(controller="segment",action="edit",id=document.id)
         
@@ -100,7 +89,7 @@ class DocController(BaseController):
         for k, v in self.form_result.items():
             if getattr(document, k) != v:
                 setattr(document, k, v)
-        document.latest_editor = get_user_model()
+        document.latest_editor = get_user()
         model.meta.Session.flush()
         redirect_to(action="view", id=id)
         

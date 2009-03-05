@@ -5,7 +5,7 @@ from pylons.controllers.util import abort, redirect_to
 
 from basaasa.lib.base import BaseController, render
 
-from authkit.permissions import ValidAuthKitUser
+from authkit.permissions import RemoteUser
 from authkit.authorize.pylons_adaptors import authorize
 from webhelpers import paginate  
 
@@ -18,6 +18,8 @@ from formencode import htmlfill
 from basaasa import model
 import simplejson
 
+from basaasa.lib.user import get_user
+
 log = logging.getLogger(__name__)
 
 class NewUserDictForm(formencode.Schema):
@@ -27,21 +29,8 @@ class NewUserDictForm(formencode.Schema):
     lang = formencode.validators.String(not_empty=True)
     translations = formencode.validators.String(not_empty=True)
 
-def get_user():
-    return request.environ['authkit.users'].user(request.environ['REMOTE_USER'])
-
-def get_user_id():
-    username = get_user().get('username')
-    user = model.User.query.filter_by(username=username).one()
-    return user.uid
-
-def get_user_model():
-    username = get_user().get('username')
-    user = model.User.query.filter_by(username=username).one()
-    return user
-
 class UserDictController(BaseController):
-    @authorize(ValidAuthKitUser())    
+    @authorize(RemoteUser())    
     def __before__(self):
         pass
     
@@ -58,7 +47,7 @@ class UserDictController(BaseController):
     @validate(schema=NewUserDictForm(), form='new')    
     def create(self):
         user_dict = model.UserDict()
-        user_dict.owner = get_user_model() 
+        user_dict.owner = get_user() 
         user_dict.headword = self.form_result.get('headword')
         user_dict.lang = self.form_result.get('lang')
         user_dict.translations(self.form_result.get('translations').split(", *"))
@@ -91,7 +80,7 @@ class UserDictController(BaseController):
         dict_entry = model.UserDict.get(id)
         if dict_entry is None:
             abort(404)
-        dict_entry.owner = get_user_model()
+        dict_entry.owner = get_user()
         dict_entry.headword = self.form_result.get('headword')
         dict_entry.lang = self.form_result.get('lang')
         dict_entry.translations(self.form_result.get('translations').split(", *"))

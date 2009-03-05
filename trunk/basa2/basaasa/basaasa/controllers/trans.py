@@ -2,7 +2,7 @@ import logging
 from pylons import request, response, session, tmpl_context as c
 from pylons.controllers.util import abort, redirect_to
 from basaasa.lib.base import BaseController, render
-from authkit.permissions import ValidAuthKitUser
+from authkit.permissions import RemoteUser 
 from authkit.authorize.pylons_adaptors import authorize
 from webhelpers import paginate  
 from pylons.decorators import validate
@@ -12,20 +12,9 @@ from formencode import htmlfill
 from basaasa import model
 import re
 
+from basaasa.lib.user import get_user
+
 log = logging.getLogger(__name__)
-
-def get_user():
-    return request.environ['authkit.users'].user(request.environ['REMOTE_USER'])
-
-def get_user_id():
-    username = get_user().get('username')
-    user = model.User.query.filter_by(username=username).one()
-    return user.uid
-
-def get_user_model():
-    username = get_user().get('username')
-    user = model.User.query.filter_by(username=username).one()
-    return user
 
 class NewTransForm(formencode.Schema):
     allow_extra_fields = True
@@ -37,7 +26,7 @@ class NewTransForm(formencode.Schema):
 # TODO: multilingual
 
 class TransController(BaseController):
-    @authorize(ValidAuthKitUser())    
+    @authorize(RemoteUser())    
     def __before__(self):
         pass
 
@@ -91,7 +80,7 @@ class TransController(BaseController):
         translation = model.Translation(document = document,
                                        title = request.params.get('title'),
                                        body = target_segments,
-                                       latest_editor = get_user_model())
+                                       latest_editor = get_user())
         model.meta.Session.flush()
         redirect_to(controller="doc", action="view", id=doc_id)
     
@@ -102,7 +91,7 @@ class TransController(BaseController):
         if document is None:
             abort(404)
         translation = document.latest_translation()
-        translation.latest_editor = get_user_model()
+        translation.latest_editor = get_user()
         translation.title = request.params.get('title')
         target_items = [(int(re.match("^target_(\d+)$", i[0]).group(1)), i[1]) \
                         for i in request.params.items() if \

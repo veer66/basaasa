@@ -5,7 +5,7 @@ from pylons.controllers.util import abort, redirect_to
 
 from basaasa.lib.base import BaseController, render
 
-from authkit.permissions import ValidAuthKitUser
+from authkit.permissions import RemoteUser
 from authkit.authorize.pylons_adaptors import authorize
 from webhelpers import paginate  
 
@@ -17,6 +17,8 @@ from formencode import htmlfill
 
 from basaasa import model
 
+from basaasa.lib.user import get_user
+
 import re
 
 log = logging.getLogger(__name__)
@@ -26,24 +28,8 @@ class NewSegmentForm(formencode.Schema):
     filter_extra_fields = True
     title = formencode.validators.String(not_empty=True)
     segment = formencode.validators.String(not_empty=True)
-    body = formencode.validators.String(not_empty=True)
-    
-
-def get_user():
-    return request.environ['authkit.users'].user(request.environ['REMOTE_USER'])
-
-def get_user_id():
-    username = get_user().get('username')
-    user = model.User.query.filter_by(username=username).one()
-    return user.uid
-
-def get_user_model():
-    username = get_user().get('username')
-    user = model.User.query.filter_by(username=username).one()
-    return user
-
-class SegmentController(BaseController):
-    @authorize(ValidAuthKitUser())    
+    body = formencode.validators.String(not_empty=True)class SegmentController(BaseController):
+    @authorize(RemoteUser())    
     def __before__(self):
         pass
             
@@ -60,7 +46,7 @@ class SegmentController(BaseController):
         document.segment = filter(lambda line: line != '', \
                                   re.split("\n\n+", \
                                            self.form_result.get('segment').replace("\r", "")))
-        document.latest_editor = get_user_model()
+        document.latest_editor = get_user()
         model.meta.Session.flush()
         redirect_to(action="view", id=id)       
             

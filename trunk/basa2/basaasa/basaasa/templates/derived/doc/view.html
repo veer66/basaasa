@@ -34,9 +34,11 @@ ${h.link_to(_(u"Delete"), h.url_for(action="delete", id=c.document.id))} |
 <tr>
 	<th>${_("Translation")}</th>
 	<td>
-	% for segment in c.translation.body:
-		${segment}<br/><br/>
-	% endfor
+	% if c.translation:
+	    % for segment in c.translation.body:
+		    ${segment}<br/><br/>
+	    % endfor
+	% endif
 	</td>
     <td>${h.link_to(_(u"Edit translation"), h.url_for(controller="trans", action="edit", doc_id=c.document.id, id=None))}</td>
 </tr>
