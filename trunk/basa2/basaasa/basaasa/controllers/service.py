@@ -34,19 +34,21 @@ class NewServiceForm(formencode.Schema):
 
 
 class ServiceController(BaseController):
-    @authorize(Admin())    
     def __before__(self):
         pass
 
+    @authorize(Admin())    
     def list(self):
         page = request.params.get('page', 1)
         service = model.Service.query.all()
         c.paginator = paginate.Page(service, page = page)  
         return render("/derived/service/list.html")
 
+    @authorize(Admin())    
     def new(self):
         return render("/derived/service/new.html")
 
+    @authorize(Admin())    
     @restrict('POST')
     @validate(schema=NewServiceForm(), form='new')    
     def create(self):
@@ -57,12 +59,14 @@ class ServiceController(BaseController):
         model.meta.Session.flush()        
         redirect_to(controller="service", action="list")
         
+    @authorize(Admin())    
     def view(self, id=None):
         if id is None:
             abort(404)
         c.service = model.Service.get(id)                
         return render("/derived/service/view.html")
     
+    @authorize(Admin())    
     def delete(self, id=None):
         if id is None:
             abort(404)
@@ -116,6 +120,7 @@ class ServiceController(BaseController):
             abort(404)
         return urllib.urlopen(url, urllib.urlencode(dict(text=text, lang=lang))).read()
     
+    @authorize(Admin())    
     def edit(self, id=None):
         if id is None:
             abort(404)
@@ -127,6 +132,7 @@ class ServiceController(BaseController):
                       url = service.url)        
         return htmlfill.render(render("/derived/service/edit.html"), values)
     
+    @authorize(Admin())    
     @restrict('POST')
     @validate(schema=NewServiceForm(), form='edit')
     def save(self, id=None):
